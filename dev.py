@@ -57,16 +57,16 @@ def invoke(command: Sequence[str], *, cwd: Path | None = None) -> subprocess.Com
     )
 
 
-def failure(name: str, detail: str) -> int:
-    emit(
-        {
-            "command": name,
-            "conversion_evidence": "none",
-            "status": "harness_setup_failure",
-            "detail": detail,
-        },
-        stream=sys.stderr,
-    )
+def failure(name: str, detail: str, output: str | None = None) -> int:
+    result: dict[str, Any] = {
+        "command": name,
+        "conversion_evidence": "none",
+        "status": "harness_setup_failure",
+        "detail": detail,
+    }
+    if output:
+        result["diagnostic_output"] = output[-4_000:]
+    emit(result, stream=sys.stderr)
     return 2
 
 
@@ -123,13 +123,55 @@ def bootstrap_corpus(args: argparse.Namespace) -> int:
     return 0
 
 
+def bootstrap_runtime_commands(args: argparse.Namespace) -> list[list[str]]:
+    return [
+        [
+            "bash",
+            "tools/bootstrap_fpc_runtime.sh",
+            str(args.corpus_dir),
+            str(args.install_dir),
+            args.host_fpc,
+            str(args.workers),
+        ]
+    ]
+
+
+def bootstrap_runtime(args: argparse.Namespace) -> int:
+    commands = bootstrap_runtime_commands(args)
+    if args.dry_run:
+        emit(command_plan("bootstrap-runtime", commands))
+        return 0
+    result = invoke(commands[0], cwd=ROOT)
+    if result.returncode:
+        return failure(
+            "bootstrap-runtime",
+            "the self-hosted FPC runtime bootstrap did not complete",
+            (result.stdout or "") + (result.stderr or ""),
+        )
+    emit(
+        {
+            "command": "bootstrap-runtime",
+            "conversion_evidence": "none",
+            "status": "harness_runtime_completed",
+            "runtime_compiler": str(args.install_dir / "bin" / "sourcebridge-fpc"),
+        }
+    )
+    return 0
+
+
 def run_corpus_commands(args: argparse.Namespace) -> list[list[str]]:
     return [
+        [
+            "make",
+            "clean",
+            f"TEST_FPC={args.fpc}",
+        ],
         [
             "make",
             f"-j{args.workers}",
             "full",
             f"TEST_FPC={args.fpc}",
+            f"PP={args.fpc}",
             "QUICKTEST=1",
         ],
         [
@@ -141,6 +183,8 @@ def run_corpus_commands(args: argparse.Namespace) -> list[list[str]]:
             str(args.digest.relative_to(ROOT)),
             "--workers",
             str(args.workers),
+            "--fpc",
+            args.fpc,
             "--output",
             str(args.output.relative_to(ROOT)),
         ],
@@ -154,7 +198,14 @@ def run_corpus(args: argparse.Namespace) -> int:
         return 0
 
     try:
-        result = invoke(commands[0], cwd=args.corpus_dir / "tests")
+        cleanup = invoke(commands[0], cwd=args.corpus_dir / "tests")
+        if cleanup.returncode:
+            return failure(
+                "run-corpus",
+                "the upstream harness cleanup did not complete",
+                (cleanup.stdout or "") + (cleanup.stderr or ""),
+            )
+        result = invoke(commands[1], cwd=args.corpus_dir / "tests")
     except OSError:
         return failure("run-corpus", "the upstream harness could not be started")
 
@@ -162,7 +213,7 @@ def run_corpus(args: argparse.Namespace) -> int:
     args.digest.write_text(
         (result.stdout or "") + (result.stderr or ""), encoding="utf-8"
     )
-    record = invoke(commands[1], cwd=ROOT)
+    record = invoke(commands[2], cwd=ROOT)
     if record.returncode:
         return failure(
             "run-corpus",
@@ -225,6 +276,12 @@ def describe(_: argparse.Namespace) -> int:
                     "required_arguments": ["--corpus-dir"],
                     "dry_run": True,
                 },
+                "bootstrap-runtime": {
+                    "description": "Build a self-hosted FPC runtime from the pinned corpus.",
+                    "required_arguments": ["--corpus-dir", "--install-dir"],
+                    "dry_run": True,
+                    "conversion_evidence": "none",
+                },
                 "run-corpus": {
                     "description": "Run the upstream harness and record its evidence.",
                     "required_arguments": ["--corpus-dir"],
@@ -263,6 +320,14 @@ def parser() -> argparse.ArgumentParser:
     )
     bootstrap.add_argument("--dry-run", action="store_true")
     bootstrap.set_defaults(handler=bootstrap_corpus)
+
+    runtime = subcommands.add_parser("bootstrap-runtime")
+    runtime.add_argument("--corpus-dir", type=Path, required=True)
+    runtime.add_argument("--install-dir", type=Path, required=True)
+    runtime.add_argument("--host-fpc", default="fpc")
+    runtime.add_argument("--workers", type=int, default=32)
+    runtime.add_argument("--dry-run", action="store_true")
+    runtime.set_defaults(handler=bootstrap_runtime)
 
     run = subcommands.add_parser("run-corpus")
     run.add_argument("--corpus-dir", type=Path, required=True)

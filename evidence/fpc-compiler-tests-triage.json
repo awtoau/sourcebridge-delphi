@@ -1056,18 +1056,6 @@
     "test_path": "webtbs/tw35027"
   },
   {
-    "category": "unclassified",
-    "diagnostic": "no diagnostic line found in harness log",
-    "log_path": "webtbs/tw35187.log",
-    "test_path": "webtbs/tw35187"
-  },
-  {
-    "category": "unclassified",
-    "diagnostic": "no diagnostic line found in harness log",
-    "log_path": "webtbs/tw35272.log",
-    "test_path": "webtbs/tw35272"
-  },
-  {
     "category": "missing_test_dependency",
     "diagnostic": "missing unit `variants`",
     "log_path": "webtbs/tw3529.log",
@@ -1218,12 +1206,6 @@
     "test_path": "webtbs/tw39885"
   },
   {
-    "category": "unclassified",
-    "diagnostic": "no diagnostic line found in harness log",
-    "log_path": "webtbs/tw40012.log",
-    "test_path": "webtbs/tw40012"
-  },
-  {
     "category": "missing_test_dependency",
     "diagnostic": "missing unit `Generics.Collections`",
     "log_path": "webtbs/tw40074.log",
@@ -1254,40 +1236,10 @@
     "test_path": "webtbs/tw4093"
   },
   {
-    "category": "unclassified",
-    "diagnostic": "no diagnostic line found in harness log",
-    "log_path": "webtbs/tw41019.log",
-    "test_path": "webtbs/tw41019"
-  },
-  {
     "category": "missing_test_dependency",
     "diagnostic": "missing unit `StrUtils`",
     "log_path": "webtbs/tw4119.log",
     "test_path": "webtbs/tw4119"
-  },
-  {
-    "category": "unclassified",
-    "diagnostic": "no diagnostic line found in harness log",
-    "log_path": "webtbs/tw41270.log",
-    "test_path": "webtbs/tw41270"
-  },
-  {
-    "category": "compiler_or_runtime_diagnostic",
-    "diagnostic": "tw41460.pp(18,35) Fatal: Internal error 2008030101",
-    "log_path": "webtbs/tw41460.log",
-    "test_path": "webtbs/tw41460"
-  },
-  {
-    "category": "compiler_or_runtime_diagnostic",
-    "diagnostic": "tw41460c.pp(27,36) Fatal: Internal error 2008030101",
-    "log_path": "webtbs/tw41460c.log",
-    "test_path": "webtbs/tw41460c"
-  },
-  {
-    "category": "compiler_or_runtime_diagnostic",
-    "diagnostic": "tw41460d.pp(19,35) Fatal: Internal error 2008030101",
-    "log_path": "webtbs/tw41460d.log",
-    "test_path": "webtbs/tw41460d"
   },
   {
     "category": "missing_test_dependency",

@@ -4,10 +4,11 @@ import sys
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).parents[1] / "tools"))
 from record_fpc_compiler_test_corpus import source_files
-from record_fpc_compiler_test_run import parse_digest
+from record_fpc_compiler_test_run import parse_digest, record
 from build_fpc_corpus_triage_queue import classify
 
 
@@ -57,4 +58,41 @@ class FpcCorpusRunTests(unittest.TestCase):
                 "unexpected_run_failures": 0,
                 "skipped": 2,
             },
+        )
+
+    def test_records_the_compiler_used_by_the_harness(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            manifest = root / "manifest.json"
+            manifest.write_text(
+                '{"source_name":"fpc","source_remote":"https://example.test/fpc",'
+                '"source_revision":"r1","tree_sha256":"digest"}',
+                encoding="utf-8",
+            )
+            digest = root / "digest.txt"
+            digest.write_text(
+                "\n".join([
+                    "Total = 1 (0:1)",
+                    "Total number of compilations = 1 (0:1)",
+                    "Successfully compiled = 1",
+                    "Successfully failed = 0",
+                    "Compilation failures = 0",
+                    "Compilation that did not fail while they should = 0",
+                    "Total number of runs = 0 (0:0)",
+                    "Successful runs = 0",
+                    "Failed runs = 0",
+                    "Number of skipped tests = 0",
+                ]),
+                encoding="utf-8",
+            )
+            with patch(
+                "record_fpc_compiler_test_run.compiler_identity",
+                return_value={"version": "3.2.4", "target_cpu": "x86_64", "target_os": "linux"},
+            ) as compiler_identity:
+                result = record(manifest, digest, 4, "/opt/fpc/bin/fpc")
+
+        compiler_identity.assert_called_once_with("/opt/fpc/bin/fpc")
+        self.assertEqual(
+            result["run"]["target"],
+            "make full TEST_FPC=/opt/fpc/bin/fpc PP=/opt/fpc/bin/fpc QUICKTEST=1",
         )

@@ -2,7 +2,7 @@
   "compiler": {
     "target_cpu": "x86_64",
     "target_os": "linux",
-    "version": "3.2.3"
+    "version": "3.2.4"
   },
   "corpus": {
     "source_name": "free-pascal-compiler-tests",
@@ -14,18 +14,18 @@
     "interpretation": "The corpus revision is a compatibility candidate for the Fedora compiler, not an assumed exact source match. Unexpected outcomes are triage inputs, not converter-rule evidence.",
     "summary": {
       "compilations": 4987,
-      "compiled": 3586,
+      "compiled": 3589,
       "expected_compile_failures": 1171,
-      "runs": 2938,
+      "runs": 2941,
       "skipped": 501,
-      "successful_runs": 2924,
-      "total": 7925,
-      "unexpected_compile_failures": 226,
+      "successful_runs": 2932,
+      "total": 7928,
+      "unexpected_compile_failures": 223,
       "unexpected_compile_successes": 4,
-      "unexpected_run_failures": 14
+      "unexpected_run_failures": 9
     },
-    "target": "make full TEST_FPC=/usr/bin/fpc QUICKTEST=1",
-    "workers": 32
+    "target": "make full TEST_FPC=/tmp/sourcebridge-delphi-fpc-runtime/bin/sourcebridge-fpc PP=/tmp/sourcebridge-delphi-fpc-runtime/bin/sourcebridge-fpc QUICKTEST=1",
+    "workers": 4
   },
   "schema_version": 1
 }

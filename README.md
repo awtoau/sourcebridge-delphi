@@ -49,6 +49,30 @@ python3 dev.py bootstrap-corpus \
 python3 dev.py bootstrap-corpus --corpus-dir ../fpc-compiler-tests
 ```
 
+Build a compatible self-hosted compiler/runtime from that exact pinned
+checkout before treating broader harness outcomes as compiler semantics. The
+install directory is intentionally explicit and must be empty, so this cannot
+replace the host compiler or reuse an unverified prior build:
+
+```text
+python3 dev.py bootstrap-runtime \
+  --corpus-dir ../fpc-compiler-tests \
+  --install-dir /path/to/fpc-runtime \
+  --host-fpc /usr/bin/fpc \
+  --dry-run
+python3 dev.py bootstrap-runtime \
+  --corpus-dir ../fpc-compiler-tests \
+  --install-dir /path/to/fpc-runtime \
+  --host-fpc /usr/bin/fpc
+```
+
+The bootstrap expands the pinned checkout's sparse paths only for upstream
+`compiler` and `utils`, builds with the named host compiler, and confirms the
+installed `/path/to/fpc-runtime/bin/sourcebridge-fpc`. That wrapper binds the
+new compiler to the matching pinned RTL units; use it with `run-corpus --fpc`.
+Do not overwrite the committed run evidence until the runtime bootstrap
+succeeds.
+
 Run the existing upstream harness, then create triage evidence. The output
 status intentionally calls this *harness evidence*, never conversion evidence:
 
@@ -57,6 +81,30 @@ python3 dev.py run-corpus --corpus-dir ../fpc-compiler-tests --dry-run
 python3 dev.py run-corpus --corpus-dir ../fpc-compiler-tests
 python3 dev.py triage-corpus --corpus-dir ../fpc-compiler-tests --dry-run
 python3 dev.py triage-corpus --corpus-dir ../fpc-compiler-tests
+```
+
+`run-corpus` runs `make clean` before each full execution, as required by the
+upstream suite. It uses the selected compiler for both upstream `TEST_FPC` and
+the helper-tool `PP` contract. During investigation, direct the run and triage
+JSON to ignored `tmp/` paths; replace committed evidence only after reviewing
+the new result:
+
+```text
+python3 dev.py run-corpus --corpus-dir ../fpc-compiler-tests \
+  --fpc /path/to/fpc-runtime/bin/fpc \
+  --digest tmp/fpc-runtime-run.log \
+  --output tmp/fpc-runtime-run.json
+python3 dev.py triage-corpus --corpus-dir ../fpc-compiler-tests \
+  --output tmp/fpc-runtime-triage.json
+```
+
+Pass `--fpc` with the selected compiler executable when using a self-hosted
+environment. The harness command, recorded compiler identity, and evidence
+target then refer to that same executable:
+
+```text
+python3 dev.py run-corpus --corpus-dir ../fpc-compiler-tests \
+  --fpc /path/to/self-hosted/fpc
 ```
 
 `harness_setup_failure` means the harness or its dependencies could not run.

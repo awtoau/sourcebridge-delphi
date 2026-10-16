@@ -36,7 +36,7 @@ def parse_digest(text: str) -> dict[str, int]:
     return summary
 
 
-def compiler_identity() -> dict[str, str]:
+def compiler_identity(fpc: str) -> dict[str, str]:
     values: dict[str, str] = {}
     for field, argument in (
         ("version", "-iV"),
@@ -44,18 +44,18 @@ def compiler_identity() -> dict[str, str]:
         ("target_os", "-iTO"),
     ):
         result = subprocess.run(
-            ["fpc", argument],
+            [fpc, argument],
             check=False,
             capture_output=True,
             text=True,
         )
         if result.returncode:
-            raise ValueError(f"cannot read FPC {field}")
+            raise ValueError(f"cannot read FPC {field} from `{fpc}`")
         values[field] = result.stdout.strip()
     return values
 
 
-def record(manifest_path: Path, digest_path: Path, workers: int) -> dict[str, Any]:
+def record(manifest_path: Path, digest_path: Path, workers: int, fpc: str) -> dict[str, Any]:
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     if not isinstance(manifest, dict):
         raise ValueError("corpus manifest must be an object")
@@ -67,9 +67,9 @@ def record(manifest_path: Path, digest_path: Path, workers: int) -> dict[str, An
             "source_revision": manifest["source_revision"],
             "tree_sha256": manifest["tree_sha256"],
         },
-        "compiler": compiler_identity(),
+        "compiler": compiler_identity(fpc),
         "run": {
-            "target": "make full TEST_FPC=/usr/bin/fpc QUICKTEST=1",
+            "target": f"make full TEST_FPC={fpc} PP={fpc} QUICKTEST=1",
             "workers": workers,
             "summary": parse_digest(digest_path.read_text(encoding="utf-8")),
             "interpretation": (
@@ -86,13 +86,14 @@ def main() -> int:
     parser.add_argument("--manifest", type=Path, required=True)
     parser.add_argument("--digest", type=Path, required=True)
     parser.add_argument("--workers", type=int, required=True)
+    parser.add_argument("--fpc", required=True)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     if args.workers < 1:
         print("--workers must be positive", file=sys.stderr)
         return 1
     try:
-        data = record(args.manifest, args.digest, args.workers)
+        data = record(args.manifest, args.digest, args.workers, args.fpc)
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_text(json.dumps(data, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     except (OSError, ValueError, KeyError, json.JSONDecodeError) as error:
