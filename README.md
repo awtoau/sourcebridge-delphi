@@ -56,6 +56,13 @@ python3 tools/validate_fpc_scalar_behavior.py
 
 It does not establish overflow behavior.
 
+The default-mode overflow observation is separate and must remain coupled to
+the compiler options used by the validator:
+
+```text
+python3 tools/validate_fpc_overflow_behavior.py
+```
+
 Create source facts coupled to the pinned compiler variant for a target backend:
 
 ```text
