@@ -26,104 +26,53 @@ This proves only that the fixture compiles in that concrete variant. No rule
 may claim overflow behavior, ABI compatibility, runtime behavior, or
 Embarcadero Delphi equivalence without further evidence.
 
-Run the platform-aware probe before provisioning:
+## Verified development workflow
+
+Use `dev.py` as the development entry point. It has a machine-readable command
+registry and keeps corpus locations as explicit arguments rather than recording
+local paths in committed evidence:
 
 ```text
-python3 tools/toolchain_report.py
+python3 dev.py describe
+python3 dev.py readiness
 ```
 
-On Fedora, install the initial open-source compiler with:
+Bootstrap the pinned external compiler-test corpus only after reviewing its
+dry-run plan. A successful bootstrap also records the whole-tree manifest at
+`evidence/fpc-compiler-tests-manifest.json`; it records the upstream remote and
+revision, never the local checkout path:
 
 ```text
-tools/bootstrap_fedora_fpc.sh
+python3 dev.py bootstrap-corpus \
+  --corpus-dir ../fpc-compiler-tests \
+  --dry-run
+python3 dev.py bootstrap-corpus --corpus-dir ../fpc-compiler-tests
 ```
 
-The probe reports any detected `fpc`, `dcc32`, or `dcc64` compiler and records
-the FPC version, target CPU, and target OS needed to pin a Sourcebridge variant.
+Run the existing upstream harness, then create triage evidence. The output
+status intentionally calls this *harness evidence*, never conversion evidence:
 
-Re-run the pinned source validation at any time:
+```text
+python3 dev.py run-corpus --corpus-dir ../fpc-compiler-tests --dry-run
+python3 dev.py run-corpus --corpus-dir ../fpc-compiler-tests
+python3 dev.py triage-corpus --corpus-dir ../fpc-compiler-tests --dry-run
+python3 dev.py triage-corpus --corpus-dir ../fpc-compiler-tests
+```
+
+`harness_setup_failure` means the harness or its dependencies could not run.
+`harness_evidence_recorded` and `harness_triage_recorded` record only upstream
+compiler-test outcomes; they do not validate a conversion or justify a
+converter rule. The triage queue keeps missing units and missing harness logs
+separate from compiler diagnostics.
+
+The scalar fixtures remain conformance canaries, not the rule-development
+corpus. Re-run their focused validators directly:
 
 ```text
 python3 tools/validate_fpc_fixture.py
-```
-
-The bounded scalar behavior observation confirms the selected variant's
-`Integer` and `Cardinal` widths and non-overflow addition examples:
-
-```text
 python3 tools/validate_fpc_scalar_behavior.py
-```
-
-It does not establish overflow behavior.
-
-The default-mode overflow observation is separate and must remain coupled to
-the compiler options used by the validator:
-
-```text
 python3 tools/validate_fpc_overflow_behavior.py
-```
-
-Create source facts coupled to the pinned compiler variant for a target backend:
-
-```text
 python3 tools/extract_fpc_fixture.py
 ```
 
-## Existing corpus discovery
-
-The scalar fixtures are conformance canaries, not the rule-development corpus.
-The primary Stage-1 corpus is the upstream Free Pascal compiler test suite,
-checked out with only its `tests/` directory. Set `FPC_TEST_CORPUS` in a local
-`.env` from [`.env.example`](.env.example) to that checkout.
-
-Create the pinned test corpus plus its `rtl`/`packages` harness dependencies:
-
-```text
-bash tools/bootstrap_fpc_test_corpus.sh ../fpc-compiler-tests
-```
-
-Record its complete manifest before analysis:
-
-```text
-python3 tools/record_fpc_compiler_test_corpus.py \
-  --output evidence/fpc-compiler-tests-manifest.json
-```
-
-The manifest scans every `.pas`, `.pp`, `.lpr`, and `.inc` source file below
-that tree. Its compiler compatibility is measured through the upstream harness;
-it is never inferred solely from a close version number.
-
-After an upstream run, persist its digest summary:
-
-```text
-python3 tools/record_fpc_compiler_test_run.py \
-  --manifest evidence/fpc-compiler-tests-manifest.json \
-  --digest /path/to/fpc-digest.txt \
-  --workers 32 \
-  --output evidence/fpc-compiler-tests-quick-run.json
-```
-
-Turn the harness failure list into a triage queue before assigning language
-work. Missing runtime/package units are setup dependencies, not converter gaps:
-
-```text
-python3 tools/build_fpc_corpus_triage_queue.py \
-  --output-dir "$FPC_TEST_CORPUS/tests/output/x86_64-linux" \
-  --output evidence/fpc-compiler-tests-triage.json
-```
-
-For bounded local proposal assistance, run one Delphi-only batch of up to 20
-non-setup diagnostics. The default is 10. It uses the pinned local model,
-validates every evidence reference literally, retains both staged and rejected
-responses under `evidence/ollama-triage/`, and unloads the model when the
-batch completes. It never changes rules or generated output:
-
-```text
-python3 tools/run_fpc_triage_batch.py
-```
-
-```text
-sourcebridge-delphi-extract fixtures/scalars.pas
-```
-
-The command writes normalized JSON facts to standard output.
+The extractor writes normalized JSON facts to standard output.

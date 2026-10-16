@@ -1,0 +1,294 @@
+#!/usr/bin/env python3
+"""Development entry point for the verified Delphi corpus workflow."""
+
+from __future__ import annotations
+
+import argparse
+import json
+from pathlib import Path
+import subprocess
+import sys
+from typing import Any, Sequence
+
+
+ROOT = Path(__file__).resolve().parent
+DEFAULT_MANIFEST = Path("evidence/fpc-compiler-tests-manifest.json")
+DEFAULT_DIGEST = Path("tmp/fpc-compiler-tests-digest.txt")
+DEFAULT_RUN = Path("evidence/fpc-compiler-tests-quick-run.json")
+DEFAULT_TRIAGE = Path("evidence/fpc-compiler-tests-triage.json")
+PYTHON = "python3"
+
+
+def repository_path(value: str) -> Path:
+    """Return a repository-contained output path, rejecting local absolute paths."""
+    path = Path(value)
+    if path.is_absolute():
+        raise argparse.ArgumentTypeError("output paths must be repository-relative")
+    resolved = (ROOT / path).resolve()
+    try:
+        resolved.relative_to(ROOT)
+    except ValueError as error:
+        raise argparse.ArgumentTypeError(
+            "output paths must stay inside this repository"
+        ) from error
+    return resolved
+
+
+def command_plan(name: str, commands: Sequence[Sequence[str]]) -> dict[str, Any]:
+    return {
+        "command": name,
+        "status": "dry-run",
+        "corpus_location": "explicit argument; not persisted",
+        "commands": [list(command) for command in commands],
+    }
+
+
+def emit(data: dict[str, Any], stream: Any = sys.stdout) -> None:
+    print(json.dumps(data, indent=2, sort_keys=True), file=stream)
+
+
+def invoke(command: Sequence[str], *, cwd: Path | None = None) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(
+        list(command),
+        cwd=cwd,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+
+
+def failure(name: str, detail: str) -> int:
+    emit(
+        {
+            "command": name,
+            "conversion_evidence": "none",
+            "status": "harness_setup_failure",
+            "detail": detail,
+        },
+        stream=sys.stderr,
+    )
+    return 2
+
+
+def readiness(_: argparse.Namespace) -> int:
+    result = invoke([PYTHON, "tools/toolchain_report.py"], cwd=ROOT)
+    if result.returncode:
+        return failure("readiness", "the compiler readiness probe could not run")
+    try:
+        report = json.loads(result.stdout)
+    except json.JSONDecodeError:
+        return failure("readiness", "the compiler readiness probe produced invalid JSON")
+    emit(
+        {
+            "command": "readiness",
+            "status": report.get("validation_status", "unknown"),
+            "compiler_report": report,
+        }
+    )
+    return 0
+
+
+def bootstrap_corpus_commands(args: argparse.Namespace) -> list[list[str]]:
+    return [
+        ["bash", "tools/bootstrap_fpc_test_corpus.sh", str(args.corpus_dir)],
+        [
+            PYTHON,
+            "tools/record_fpc_compiler_test_corpus.py",
+            "--root",
+            str(args.corpus_dir),
+            "--output",
+            str(args.manifest.relative_to(ROOT)),
+        ],
+    ]
+
+
+def bootstrap_corpus(args: argparse.Namespace) -> int:
+    commands = bootstrap_corpus_commands(args)
+    if args.dry_run:
+        emit(command_plan("bootstrap-corpus", commands))
+        return 0
+    result = invoke(commands[0], cwd=ROOT)
+    if result.returncode:
+        return failure("bootstrap-corpus", "the upstream corpus bootstrap did not complete")
+    manifest = invoke(commands[1], cwd=ROOT)
+    if manifest.returncode:
+        return failure("bootstrap-corpus", "the corpus manifest could not be recorded")
+    emit(
+        {
+            "command": "bootstrap-corpus",
+            "conversion_evidence": "none",
+            "status": "harness_setup_completed",
+        }
+    )
+    return 0
+
+
+def run_corpus_commands(args: argparse.Namespace) -> list[list[str]]:
+    return [
+        [
+            "make",
+            f"-j{args.workers}",
+            "full",
+            f"TEST_FPC={args.fpc}",
+            "QUICKTEST=1",
+        ],
+        [
+            PYTHON,
+            "tools/record_fpc_compiler_test_run.py",
+            "--manifest",
+            str(args.manifest.relative_to(ROOT)),
+            "--digest",
+            str(args.digest.relative_to(ROOT)),
+            "--workers",
+            str(args.workers),
+            "--output",
+            str(args.output.relative_to(ROOT)),
+        ],
+    ]
+
+
+def run_corpus(args: argparse.Namespace) -> int:
+    commands = run_corpus_commands(args)
+    if args.dry_run:
+        emit(command_plan("run-corpus", commands))
+        return 0
+
+    try:
+        result = invoke(commands[0], cwd=args.corpus_dir / "tests")
+    except OSError:
+        return failure("run-corpus", "the upstream harness could not be started")
+
+    args.digest.parent.mkdir(parents=True, exist_ok=True)
+    args.digest.write_text(
+        (result.stdout or "") + (result.stderr or ""), encoding="utf-8"
+    )
+    record = invoke(commands[1], cwd=ROOT)
+    if record.returncode:
+        return failure(
+            "run-corpus",
+            "the harness output could not be recorded as structured evidence",
+        )
+    emit(
+        {
+            "command": "run-corpus",
+            "conversion_evidence": "none",
+            "harness_exit_code": result.returncode,
+            "status": "harness_evidence_recorded",
+        }
+    )
+    return 0
+
+
+def triage_corpus_commands(args: argparse.Namespace) -> list[list[str]]:
+    return [
+        [
+            PYTHON,
+            "tools/build_fpc_corpus_triage_queue.py",
+            "--output-dir",
+            str(args.corpus_dir / "tests" / "output" / args.target),
+            "--output",
+            str(args.output.relative_to(ROOT)),
+        ]
+    ]
+
+
+def triage_corpus(args: argparse.Namespace) -> int:
+    commands = triage_corpus_commands(args)
+    if args.dry_run:
+        emit(command_plan("triage-corpus", commands))
+        return 0
+    result = invoke(commands[0], cwd=ROOT)
+    if result.returncode:
+        return failure("triage-corpus", "the harness failure list could not be triaged")
+    emit(
+        {
+            "command": "triage-corpus",
+            "conversion_evidence": "none",
+            "status": "harness_triage_recorded",
+        }
+    )
+    return 0
+
+
+def describe(_: argparse.Namespace) -> int:
+    emit(
+        {
+            "schema_version": 1,
+            "entry_point": "python3 dev.py",
+            "commands": {
+                "readiness": {
+                    "description": "Probe compiler readiness without provisioning.",
+                    "side_effects": "none",
+                },
+                "bootstrap-corpus": {
+                    "description": "Bootstrap the pinned upstream corpus.",
+                    "required_arguments": ["--corpus-dir"],
+                    "dry_run": True,
+                },
+                "run-corpus": {
+                    "description": "Run the upstream harness and record its evidence.",
+                    "required_arguments": ["--corpus-dir"],
+                    "dry_run": True,
+                    "conversion_evidence": "none",
+                },
+                "triage-corpus": {
+                    "description": "Classify upstream harness failures for follow-up.",
+                    "required_arguments": ["--corpus-dir"],
+                    "dry_run": True,
+                    "conversion_evidence": "none",
+                },
+            },
+            "path_policy": {
+                "corpus": "explicit argument; never written to evidence",
+                "outputs": "repository-relative only",
+            },
+        }
+    )
+    return 0
+
+
+def parser() -> argparse.ArgumentParser:
+    result = argparse.ArgumentParser(description=__doc__)
+    subcommands = result.add_subparsers(dest="subcommand", required=True)
+
+    describe_parser = subcommands.add_parser("describe")
+    describe_parser.set_defaults(handler=describe)
+    readiness_parser = subcommands.add_parser("readiness")
+    readiness_parser.set_defaults(handler=readiness)
+
+    bootstrap = subcommands.add_parser("bootstrap-corpus")
+    bootstrap.add_argument("--corpus-dir", type=Path, required=True)
+    bootstrap.add_argument(
+        "--manifest", type=repository_path, default=ROOT / DEFAULT_MANIFEST
+    )
+    bootstrap.add_argument("--dry-run", action="store_true")
+    bootstrap.set_defaults(handler=bootstrap_corpus)
+
+    run = subcommands.add_parser("run-corpus")
+    run.add_argument("--corpus-dir", type=Path, required=True)
+    run.add_argument("--fpc", default="fpc")
+    run.add_argument("--workers", type=int, default=32)
+    run.add_argument("--manifest", type=repository_path, default=ROOT / DEFAULT_MANIFEST)
+    run.add_argument("--digest", type=repository_path, default=ROOT / DEFAULT_DIGEST)
+    run.add_argument("--output", type=repository_path, default=ROOT / DEFAULT_RUN)
+    run.add_argument("--dry-run", action="store_true")
+    run.set_defaults(handler=run_corpus)
+
+    triage = subcommands.add_parser("triage-corpus")
+    triage.add_argument("--corpus-dir", type=Path, required=True)
+    triage.add_argument("--target", default="x86_64-linux")
+    triage.add_argument("--output", type=repository_path, default=ROOT / DEFAULT_TRIAGE)
+    triage.add_argument("--dry-run", action="store_true")
+    triage.set_defaults(handler=triage_corpus)
+    return result
+
+
+def main(argv: Sequence[str] | None = None) -> int:
+    args = parser().parse_args(argv)
+    if getattr(args, "workers", 1) < 1:
+        parser().error("--workers must be positive")
+    return args.handler(args)
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
