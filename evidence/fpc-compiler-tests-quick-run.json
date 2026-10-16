@@ -1,0 +1,31 @@
+{
+  "compiler": {
+    "target_cpu": "x86_64",
+    "target_os": "linux",
+    "version": "3.2.3"
+  },
+  "corpus": {
+    "source_name": "free-pascal-compiler-tests",
+    "source_remote": "https://gitlab.com/freepascal.org/fpc/source.git",
+    "source_revision": "82947b0dc135313b2bd64c208025de4bc81b2c2f",
+    "tree_sha256": "efd659ded67c237eb029bd83da32b5d02fbf864bf74e50348dd624b2700b2d2b"
+  },
+  "run": {
+    "interpretation": "The corpus revision is a compatibility candidate for the Fedora compiler, not an assumed exact source match. Unexpected outcomes are triage inputs, not converter-rule evidence.",
+    "summary": {
+      "compilations": 4987,
+      "compiled": 3586,
+      "expected_compile_failures": 1171,
+      "runs": 2938,
+      "skipped": 501,
+      "successful_runs": 2924,
+      "total": 7925,
+      "unexpected_compile_failures": 226,
+      "unexpected_compile_successes": 4,
+      "unexpected_run_failures": 14
+    },
+    "target": "make full TEST_FPC=/usr/bin/fpc QUICKTEST=1",
+    "workers": 32
+  },
+  "schema_version": 1
+}

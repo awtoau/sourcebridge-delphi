@@ -69,6 +69,40 @@ Create source facts coupled to the pinned compiler variant for a target backend:
 python3 tools/extract_fpc_fixture.py
 ```
 
+## Existing corpus discovery
+
+The scalar fixtures are conformance canaries, not the rule-development corpus.
+The primary Stage-1 corpus is the upstream Free Pascal compiler test suite,
+checked out with only its `tests/` directory. Set `FPC_TEST_CORPUS` in a local
+`.env` from [`.env.example`](.env.example) to that checkout.
+
+Create the pinned test corpus plus its `rtl`/`packages` harness dependencies:
+
+```text
+bash tools/bootstrap_fpc_test_corpus.sh ../fpc-compiler-tests
+```
+
+Record its complete manifest before analysis:
+
+```text
+python3 tools/record_fpc_compiler_test_corpus.py \
+  --output evidence/fpc-compiler-tests-manifest.json
+```
+
+The manifest scans every `.pas`, `.pp`, `.lpr`, and `.inc` source file below
+that tree. Its compiler compatibility is measured through the upstream harness;
+it is never inferred solely from a close version number.
+
+After an upstream run, persist its digest summary:
+
+```text
+python3 tools/record_fpc_compiler_test_run.py \
+  --manifest evidence/fpc-compiler-tests-manifest.json \
+  --digest /path/to/fpc-digest.txt \
+  --workers 32 \
+  --output evidence/fpc-compiler-tests-quick-run.json
+```
+
 ```text
 sourcebridge-delphi-extract fixtures/scalars.pas
 ```

@@ -1,0 +1,16 @@
+{
+  "compiler_compatibility": "candidate corpus for the Fedora FPC package; execute its harness to measure compatibility rather than assuming an exact match",
+  "file_count": 6191,
+  "schema_version": 1,
+  "scope": "all Pascal test-source files below the upstream tests directory",
+  "source_name": "free-pascal-compiler-tests",
+  "source_remote": "https://gitlab.com/freepascal.org/fpc/source.git",
+  "source_revision": "82947b0dc135313b2bd64c208025de4bc81b2c2f",
+  "suffix_counts": {
+    ".inc": 17,
+    ".lpr": 3,
+    ".pas": 37,
+    ".pp": 6134
+  },
+  "tree_sha256": "efd659ded67c237eb029bd83da32b5d02fbf864bf74e50348dd624b2700b2d2b"
+}
