@@ -103,6 +103,15 @@ python3 tools/record_fpc_compiler_test_run.py \
   --output evidence/fpc-compiler-tests-quick-run.json
 ```
 
+Turn the harness failure list into a triage queue before assigning language
+work. Missing runtime/package units are setup dependencies, not converter gaps:
+
+```text
+python3 tools/build_fpc_corpus_triage_queue.py \
+  --output-dir "$FPC_TEST_CORPUS/tests/output/x86_64-linux" \
+  --output evidence/fpc-compiler-tests-triage.json
+```
+
 ```text
 sourcebridge-delphi-extract fixtures/scalars.pas
 ```

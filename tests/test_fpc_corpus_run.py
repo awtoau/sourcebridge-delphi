@@ -8,9 +8,19 @@ import unittest
 sys.path.insert(0, str(Path(__file__).parents[1] / "tools"))
 from record_fpc_compiler_test_corpus import source_files
 from record_fpc_compiler_test_run import parse_digest
+from build_fpc_corpus_triage_queue import classify
 
 
 class FpcCorpusRunTests(unittest.TestCase):
+    def test_classifies_missing_unit_as_harness_dependency(self) -> None:
+        category, diagnostic = classify(
+            "Fatal: Can't find unit variants used by Example\n"
+            "Fatal: Compilation aborted\n"
+            "Error: compiler returned an error exitcode\n"
+        )
+        self.assertEqual(category, "missing_test_dependency")
+        self.assertEqual(diagnostic, "missing unit `variants`")
+
     def test_manifest_ignores_harness_output(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)

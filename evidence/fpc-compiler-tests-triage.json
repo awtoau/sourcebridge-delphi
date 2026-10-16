@@ -1,0 +1,1472 @@
+[
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "test/cg/tautom.log",
+    "test_path": "test/cg/tautom"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `DateUtils`",
+    "log_path": "test/cg/tcase3.log",
+    "test_path": "test/cg/tcase3"
+  },
+  {
+    "category": "compiler_or_runtime_diagnostic",
+    "diagnostic": "tcppcl1.pp(95,1) Error: Error while linking",
+    "log_path": "test/cg/tcppcl1.log",
+    "test_path": "test/cg/tcppcl1"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "test/cg/variants/tnofalvarol.log",
+    "test_path": "test/cg/variants/tnofalvarol"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "test/cg/variants/tvarol157.log",
+    "test_path": "test/cg/variants/tvarol157"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "test/cg/variants/tvarol31.log",
+    "test_path": "test/cg/variants/tvarol31"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "test/cg/variants/tvarol62.log",
+    "test_path": "test/cg/variants/tvarol62"
+  },
+  {
+    "category": "compiler_or_runtime_diagnostic",
+    "diagnostic": "tdfa11.pp(17) Fatal: There were 1 errors compiling module, stopping",
+    "log_path": "test/opt/tdfa11.log",
+    "test_path": "test/opt/tdfa11"
+  },
+  {
+    "category": "unclassified",
+    "diagnostic": "no diagnostic line found in harness log",
+    "log_path": "test/opt/tdfa8.log",
+    "test_path": "test/opt/tdfa8"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `Variants`",
+    "log_path": "test/tand1.log",
+    "test_path": "test/tand1"
+  },
+  {
+    "category": "unclassified",
+    "diagnostic": "no diagnostic line found in harness log",
+    "log_path": "test/tarray15.log",
+    "test_path": "test/tarray15"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "test/tdefault1.log",
+    "test_path": "test/tdefault1"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `varutils`",
+    "log_path": "test/testv1.log",
+    "test_path": "test/testv1"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "test/testv10.log",
+    "test_path": "test/testv10"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "test/testv2.log",
+    "test_path": "test/testv2"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "test/testv3.log",
+    "test_path": "test/testv3"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "test/testv4.log",
+    "test_path": "test/testv4"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "test/testv5.log",
+    "test_path": "test/testv5"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "test/testv6.log",
+    "test_path": "test/testv6"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "test/testv7.log",
+    "test_path": "test/testv7"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "test/testv8.log",
+    "test_path": "test/testv8"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `Variants`",
+    "log_path": "test/testv9.log",
+    "test_path": "test/testv9"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `pthreads`",
+    "log_path": "test/textthr.log",
+    "test_path": "test/textthr"
+  },
+  {
+    "category": "unclassified",
+    "diagnostic": "no diagnostic line found in harness log",
+    "log_path": "test/timplements4a.log",
+    "test_path": "test/timplements4a"
+  },
+  {
+    "category": "unclassified",
+    "diagnostic": "no diagnostic line found in harness log",
+    "log_path": "test/timplements4b.log",
+    "test_path": "test/timplements4b"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "test/tinterface4.log",
+    "test_path": "test/tinterface4"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "test/tnoext3.log",
+    "test_path": "test/tnoext3"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `ucomplex`",
+    "log_path": "test/toperator5.log",
+    "test_path": "test/toperator5"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "test/tprop.log",
+    "test_path": "test/tprop"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "test/trtti17.log",
+    "test_path": "test/trtti17"
+  },
+  {
+    "category": "compiler_or_runtime_diagnostic",
+    "diagnostic": "tset6.pp(9,21) Error: illegal type declaration of set elements",
+    "log_path": "test/tset6.log",
+    "test_path": "test/tset6"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `StrUtils`",
+    "log_path": "test/tstrutils1.log",
+    "test_path": "test/tstrutils1"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `StrUtils`",
+    "log_path": "test/tstrutils2.log",
+    "test_path": "test/tstrutils2"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "test/tthlp14.log",
+    "test_path": "test/tthlp14"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "test/tthlp3.log",
+    "test_path": "test/tthlp3"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `contnrs`",
+    "log_path": "test/units/contnrs/tbucketlist.log",
+    "test_path": "test/units/contnrs/tbucketlist"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `DateUtils`",
+    "log_path": "test/units/dateutil/testdaysbetween.log",
+    "test_path": "test/units/dateutil/testdaysbetween"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `DateUtils`",
+    "log_path": "test/units/dateutil/tincdatetime1.log",
+    "test_path": "test/units/dateutil/tincdatetime1"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `DateUtils`",
+    "log_path": "test/units/dateutil/tisotodt.log",
+    "test_path": "test/units/dateutil/tisotodt"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `dateutils`",
+    "log_path": "test/units/dateutil/tunitdt1.log",
+    "test_path": "test/units/dateutil/tunitdt1"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `FmtBCD`",
+    "log_path": "test/units/fmtbcd/tfmtbcd.log",
+    "test_path": "test/units/fmtbcd/tfmtbcd"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `testregistry`",
+    "log_path": "test/units/fpcunit/tcbucketlist.log",
+    "test_path": "test/units/fpcunit/tcbucketlist"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `testregistry`",
+    "log_path": "test/units/fpcunit/tccollection.log",
+    "test_path": "test/units/fpcunit/tccollection"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `testregistry`",
+    "log_path": "test/units/fpcunit/tccomponent.log",
+    "test_path": "test/units/fpcunit/tccomponent"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `testregistry`",
+    "log_path": "test/units/fpcunit/tccompstreaming.log",
+    "test_path": "test/units/fpcunit/tccompstreaming"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `testregistry`",
+    "log_path": "test/units/fpcunit/tcfindnested.log",
+    "test_path": "test/units/fpcunit/tcfindnested"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `testregistry`",
+    "log_path": "test/units/fpcunit/tclinkedlist.log",
+    "test_path": "test/units/fpcunit/tclinkedlist"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `testregistry`",
+    "log_path": "test/units/fpcunit/tclist.log",
+    "test_path": "test/units/fpcunit/tclist"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `testregistry`",
+    "log_path": "test/units/fpcunit/tcpersistent.log",
+    "test_path": "test/units/fpcunit/tcpersistent"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `testregistry`",
+    "log_path": "test/units/fpcunit/tcresref.log",
+    "test_path": "test/units/fpcunit/tcresref"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `testregistry`",
+    "log_path": "test/units/fpcunit/tcstreaming.log",
+    "test_path": "test/units/fpcunit/tcstreaming"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `testregistry`",
+    "log_path": "test/units/fpcunit/tcstringlist.log",
+    "test_path": "test/units/fpcunit/tcstringlist"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `testregistry`",
+    "log_path": "test/units/fpcunit/tcstrutils.log",
+    "test_path": "test/units/fpcunit/tcstrutils"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `testregistry`",
+    "log_path": "test/units/fpcunit/tctparser.log",
+    "test_path": "test/units/fpcunit/tctparser"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `unicodeducet`",
+    "log_path": "test/units/fpwidestring/tcpstr13fpwidestring.log",
+    "test_path": "test/units/fpwidestring/tcpstr13fpwidestring"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `unicodeducet`",
+    "log_path": "test/units/fpwidestring/tcpstr17fpwidestring.log",
+    "test_path": "test/units/fpwidestring/tcpstr17fpwidestring"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `unicodeducet`",
+    "log_path": "test/units/fpwidestring/tcpstr18fpwidestring.log",
+    "test_path": "test/units/fpwidestring/tcpstr18fpwidestring"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `unicodeducet`",
+    "log_path": "test/units/fpwidestring/tcpstr1fpwidestring.log",
+    "test_path": "test/units/fpwidestring/tcpstr1fpwidestring"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `unicodeducet`",
+    "log_path": "test/units/fpwidestring/tcpstr9fpwidestring.log",
+    "test_path": "test/units/fpwidestring/tcpstr9fpwidestring"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `unicodeducet`",
+    "log_path": "test/units/fpwidestring/tcpstransistr2shortstringfpwidestring.log",
+    "test_path": "test/units/fpwidestring/tcpstransistr2shortstringfpwidestring"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `unicodeducet`",
+    "log_path": "test/units/fpwidestring/tcpstransistr2widechararrayfpwidestring.log",
+    "test_path": "test/units/fpwidestring/tcpstransistr2widechararrayfpwidestring"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `unicodeducet`",
+    "log_path": "test/units/fpwidestring/tcpstransistrcompareequalfpws.log",
+    "test_path": "test/units/fpwidestring/tcpstransistrcompareequalfpws"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `unicodeducet`",
+    "log_path": "test/units/fpwidestring/tcpstransistrcomparefpwidestring.log",
+    "test_path": "test/units/fpwidestring/tcpstransistrcomparefpwidestring"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `unicodeducet`",
+    "log_path": "test/units/fpwidestring/tcpstrpchar2ansistrfpws.log",
+    "test_path": "test/units/fpwidestring/tcpstrpchar2ansistrfpws"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `unicodeducet`",
+    "log_path": "test/units/fpwidestring/tcpstrshortstr2ansistrfpws.log",
+    "test_path": "test/units/fpwidestring/tcpstrshortstr2ansistrfpws"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `unicodeducet`",
+    "log_path": "test/units/fpwidestring/tuca1.log",
+    "test_path": "test/units/fpwidestring/tuca1"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `unicodeducet`",
+    "log_path": "test/units/fpwidestring/tuca2.log",
+    "test_path": "test/units/fpwidestring/tuca2"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `unicodeducet`",
+    "log_path": "test/units/fpwidestring/tucawsm.log",
+    "test_path": "test/units/fpwidestring/tucawsm"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `unicodeducet`",
+    "log_path": "test/units/fpwidestring/tunistr1fpwidestring.log",
+    "test_path": "test/units/fpwidestring/tunistr1fpwidestring"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `unicodeducet`",
+    "log_path": "test/units/fpwidestring/tunistr2fpwidestring.log",
+    "test_path": "test/units/fpwidestring/tunistr2fpwidestring"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `unicodeducet`",
+    "log_path": "test/units/fpwidestring/tunistr6fpwidestring.log",
+    "test_path": "test/units/fpwidestring/tunistr6fpwidestring"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `unicodeducet`",
+    "log_path": "test/units/fpwidestring/tunistr7fpwidestring.log",
+    "test_path": "test/units/fpwidestring/tunistr7fpwidestring"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `unicodeducet`",
+    "log_path": "test/units/fpwidestring/twide1fpwidestring.log",
+    "test_path": "test/units/fpwidestring/twide1fpwidestring"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `unicodeducet`",
+    "log_path": "test/units/fpwidestring/twide2fpwidestring.log",
+    "test_path": "test/units/fpwidestring/twide2fpwidestring"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `unicodeducet`",
+    "log_path": "test/units/fpwidestring/twide6fpwidestring.log",
+    "test_path": "test/units/fpwidestring/twide6fpwidestring"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `unicodeducet`",
+    "log_path": "test/units/fpwidestring/twide7fpwidestring.log",
+    "test_path": "test/units/fpwidestring/twide7fpwidestring"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `matrix`",
+    "log_path": "test/units/matrix/tinv1.log",
+    "test_path": "test/units/matrix/tinv1"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `Objects`",
+    "log_path": "test/units/objects/testobj.log",
+    "test_path": "test/units/objects/testobj"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `Objects`",
+    "log_path": "test/units/objects/testobj1.log",
+    "test_path": "test/units/objects/testobj1"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `Objects`",
+    "log_path": "test/units/objects/testobj2.log",
+    "test_path": "test/units/objects/testobj2"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `StrUtils`",
+    "log_path": "test/units/strutils/taddchar.log",
+    "test_path": "test/units/strutils/taddchar"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `StrUtils`",
+    "log_path": "test/units/strutils/taddcharr.log",
+    "test_path": "test/units/strutils/taddcharr"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `StrUtils`",
+    "log_path": "test/units/strutils/tbintohex.log",
+    "test_path": "test/units/strutils/tbintohex"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `StrUtils`",
+    "log_path": "test/units/strutils/tboyer.log",
+    "test_path": "test/units/strutils/tboyer"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `StrUtils`",
+    "log_path": "test/units/strutils/tdec2numb.log",
+    "test_path": "test/units/strutils/tdec2numb"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `StrUtils`",
+    "log_path": "test/units/strutils/thex2dec.log",
+    "test_path": "test/units/strutils/thex2dec"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `StrUtils`",
+    "log_path": "test/units/strutils/thextobin.log",
+    "test_path": "test/units/strutils/thextobin"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `StrUtils`",
+    "log_path": "test/units/strutils/tinttobin.log",
+    "test_path": "test/units/strutils/tinttobin"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `StrUtils`",
+    "log_path": "test/units/strutils/tinttoroman.log",
+    "test_path": "test/units/strutils/tinttoroman"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `StrUtils`",
+    "log_path": "test/units/strutils/tiswild.log",
+    "test_path": "test/units/strutils/tiswild"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `StrUtils`",
+    "log_path": "test/units/strutils/tnumb2usa.log",
+    "test_path": "test/units/strutils/tnumb2usa"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `StrUtils`",
+    "log_path": "test/units/strutils/tpadcenter.log",
+    "test_path": "test/units/strutils/tpadcenter"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `StrUtils`",
+    "log_path": "test/units/strutils/tpadleft.log",
+    "test_path": "test/units/strutils/tpadleft"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `StrUtils`",
+    "log_path": "test/units/strutils/tpadright.log",
+    "test_path": "test/units/strutils/tpadright"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `strutils`",
+    "log_path": "test/units/strutils/tposextest.log",
+    "test_path": "test/units/strutils/tposextest"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `StrUtils`",
+    "log_path": "test/units/strutils/tromantoint.log",
+    "test_path": "test/units/strutils/tromantoint"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `ucomplex`",
+    "log_path": "test/units/ucomplex/tcsqr1.log",
+    "test_path": "test/units/ucomplex/tcsqr1"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `Variants`",
+    "log_path": "test/units/variants/tcustomvariant.log",
+    "test_path": "test/units/variants/tcustomvariant"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "test/units/variants/tvararrayofintf.log",
+    "test_path": "test/units/variants/tvararrayofintf"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `Variants`",
+    "log_path": "test/units/variants/tw26370.log",
+    "test_path": "test/units/variants/tw26370"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "test/units/variants/tw27044.log",
+    "test_path": "test/units/variants/tw27044"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "test/units/variants/tw30546.log",
+    "test_path": "test/units/variants/tw30546"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `crt`",
+    "log_path": "tbs/tb0107.log",
+    "test_path": "tbs/tb0107"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `CRT`",
+    "log_path": "tbs/tb0227.log",
+    "test_path": "tbs/tb0227"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `objects`",
+    "log_path": "tbs/tb0268.log",
+    "test_path": "tbs/tb0268"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `crt`",
+    "log_path": "tbs/tb0301.log",
+    "test_path": "tbs/tb0301"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "tbs/tb0410.log",
+    "test_path": "tbs/tb0410"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "tbs/tb0487.log",
+    "test_path": "tbs/tb0487"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `Variants`",
+    "log_path": "tbs/tb0492.log",
+    "test_path": "tbs/tb0492"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "tbs/tb0520.log",
+    "test_path": "tbs/tb0520"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `sockets`",
+    "log_path": "tbs/tb0524.log",
+    "test_path": "tbs/tb0524"
+  },
+  {
+    "category": "compiler_or_runtime_diagnostic",
+    "diagnostic": "tb0528.pp(34,1) Error: Error while linking",
+    "log_path": "tbs/tb0528.log",
+    "test_path": "tbs/tb0528"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "tbs/tb0536.log",
+    "test_path": "tbs/tb0536"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "tbs/tb0537.log",
+    "test_path": "tbs/tb0537"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `FmtBCD`",
+    "log_path": "tbs/tb0575.log",
+    "test_path": "tbs/tb0575"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `syncobjs`",
+    "log_path": "tbs/tb0636.log",
+    "test_path": "tbs/tb0636"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `Variants`",
+    "log_path": "tbs/tb0655.log",
+    "test_path": "tbs/tb0655"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `Generics.Collections`",
+    "log_path": "tbs/tb0716.log",
+    "test_path": "tbs/tb0716"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `video`",
+    "log_path": "webtbs/tu2002.log",
+    "test_path": "webtbs/tu2002"
+  },
+  {
+    "category": "compiler_or_runtime_diagnostic",
+    "diagnostic": "tw0876.pp(32,1) Error: Error while linking",
+    "log_path": "webtbs/tw0876.log",
+    "test_path": "webtbs/tw0876"
+  },
+  {
+    "category": "missing_harness_log",
+    "diagnostic": "no log file exists for failure-list entry",
+    "log_path": "Note: This test needs C libraries.log",
+    "test_path": "Note: This test needs C libraries"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `Variants`",
+    "log_path": "webtbs/tw10042.log",
+    "test_path": "webtbs/tw10042"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "webtbs/tw10482.log",
+    "test_path": "webtbs/tw10482"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "webtbs/tw10495.log",
+    "test_path": "webtbs/tw10495"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `Variants`",
+    "log_path": "webtbs/tw10623.log",
+    "test_path": "webtbs/tw10623"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "webtbs/tw11033.log",
+    "test_path": "webtbs/tw11033"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "webtbs/tw11139.log",
+    "test_path": "webtbs/tw11139"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `Variants`",
+    "log_path": "webtbs/tw11371.log",
+    "test_path": "webtbs/tw11371"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `crt`",
+    "log_path": "webtbs/tw1152.log",
+    "test_path": "webtbs/tw1152"
+  },
+  {
+    "category": "unclassified",
+    "diagnostic": "no diagnostic line found in harness log",
+    "log_path": "webtbs/tw12038.log",
+    "test_path": "webtbs/tw12038"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "webtbs/tw12109.log",
+    "test_path": "webtbs/tw12109"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "webtbs/tw12151.log",
+    "test_path": "webtbs/tw12151"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `DateUtils`",
+    "log_path": "webtbs/tw12894.log",
+    "test_path": "webtbs/tw12894"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "webtbs/tw13110.log",
+    "test_path": "webtbs/tw13110"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `stdconvs`",
+    "log_path": "webtbs/tw13133.log",
+    "test_path": "webtbs/tw13133"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `StrUtils`",
+    "log_path": "webtbs/tw13619.log",
+    "test_path": "webtbs/tw13619"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `regex`",
+    "log_path": "webtbs/tw14236.log",
+    "test_path": "webtbs/tw14236"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `Variants`",
+    "log_path": "webtbs/tw14536.log",
+    "test_path": "webtbs/tw14536"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `Variants`",
+    "log_path": "webtbs/tw14617.log",
+    "test_path": "webtbs/tw14617"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "webtbs/tw15296.log",
+    "test_path": "webtbs/tw15296"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `dateutils`",
+    "log_path": "webtbs/tw16040.log",
+    "test_path": "webtbs/tw16040"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `Objects`",
+    "log_path": "webtbs/tw1658.log",
+    "test_path": "webtbs/tw1658"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `Variants`",
+    "log_path": "webtbs/tw16787.log",
+    "test_path": "webtbs/tw16787"
+  },
+  {
+    "category": "compiler_or_runtime_diagnostic",
+    "diagnostic": "tw17236.pp(10,1) Error: Error while linking",
+    "log_path": "webtbs/tw17236.log",
+    "test_path": "webtbs/tw17236"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `strutils`",
+    "log_path": "webtbs/tw17715.log",
+    "test_path": "webtbs/tw17715"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `Variants`",
+    "log_path": "webtbs/tw17904.log",
+    "test_path": "webtbs/tw17904"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `iostream`",
+    "log_path": "webtbs/tw19851a.log",
+    "test_path": "webtbs/tw19851a"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "webtbs/tw20873.log",
+    "test_path": "webtbs/tw20873"
+  },
+  {
+    "category": "unclassified",
+    "diagnostic": "no diagnostic line found in harness log",
+    "log_path": "webtbs/tw22744b.log",
+    "test_path": "webtbs/tw22744b"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `video`",
+    "log_path": "webtbs/tw22876.log",
+    "test_path": "webtbs/tw22876"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `gvector`",
+    "log_path": "webtbs/tw23653.log",
+    "test_path": "webtbs/tw23653"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "webtbs/tw24863.log",
+    "test_path": "webtbs/tw24863"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `dateutils`",
+    "log_path": "webtbs/tw25170.log",
+    "test_path": "webtbs/tw25170"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `DateUtils`",
+    "log_path": "webtbs/tw26472.log",
+    "test_path": "webtbs/tw26472"
+  },
+  {
+    "category": "compiler_or_runtime_diagnostic",
+    "diagnostic": "tw26481.pp(25,34) Error: Generic type parameter \"THashFactory\" does not match with the one in the declaration",
+    "log_path": "webtbs/tw26481.log",
+    "test_path": "webtbs/tw26481"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `Variants`",
+    "log_path": "webtbs/tw26773.log",
+    "test_path": "webtbs/tw26773"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `Variants`",
+    "log_path": "webtbs/tw2763.log",
+    "test_path": "webtbs/tw2763"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `gmap`",
+    "log_path": "webtbs/tw27658.log",
+    "test_path": "webtbs/tw27658"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `DateUtils`",
+    "log_path": "webtbs/tw27832.log",
+    "test_path": "webtbs/tw27832"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "webtbs/tw2809.log",
+    "test_path": "webtbs/tw2809"
+  },
+  {
+    "category": "unclassified",
+    "diagnostic": "no diagnostic line found in harness log",
+    "log_path": "webtbs/tw2886.log",
+    "test_path": "webtbs/tw2886"
+  },
+  {
+    "category": "unclassified",
+    "diagnostic": "no diagnostic line found in harness log",
+    "log_path": "webtbs/tw29957.log",
+    "test_path": "webtbs/tw29957"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `Generics.Collections`",
+    "log_path": "webtbs/tw30530.log",
+    "test_path": "webtbs/tw30530"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "webtbs/tw31029.log",
+    "test_path": "webtbs/tw31029"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `strutils`",
+    "log_path": "webtbs/tw3124.log",
+    "test_path": "webtbs/tw3124"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `Variants`",
+    "log_path": "webtbs/tw3227.log",
+    "test_path": "webtbs/tw3227"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `Variants`",
+    "log_path": "webtbs/tw3227a.log",
+    "test_path": "webtbs/tw3227a"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "webtbs/tw32539.log",
+    "test_path": "webtbs/tw32539"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "webtbs/tw33230.log",
+    "test_path": "webtbs/tw33230"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "webtbs/tw3360.log",
+    "test_path": "webtbs/tw3360"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `Variants`",
+    "log_path": "webtbs/tw3418.log",
+    "test_path": "webtbs/tw3418"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `objects`",
+    "log_path": "webtbs/tw34239.log",
+    "test_path": "webtbs/tw34239"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "webtbs/tw3429.log",
+    "test_path": "webtbs/tw3429"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "webtbs/tw3470.log",
+    "test_path": "webtbs/tw3470"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "webtbs/tw3494.log",
+    "test_path": "webtbs/tw3494"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `syncobjs`",
+    "log_path": "webtbs/tw35027.log",
+    "test_path": "webtbs/tw35027"
+  },
+  {
+    "category": "unclassified",
+    "diagnostic": "no diagnostic line found in harness log",
+    "log_path": "webtbs/tw35187.log",
+    "test_path": "webtbs/tw35187"
+  },
+  {
+    "category": "unclassified",
+    "diagnostic": "no diagnostic line found in harness log",
+    "log_path": "webtbs/tw35272.log",
+    "test_path": "webtbs/tw35272"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "webtbs/tw3529.log",
+    "test_path": "webtbs/tw3529"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "webtbs/tw35955.log",
+    "test_path": "webtbs/tw35955"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `ghashmap`",
+    "log_path": "webtbs/tw36698.log",
+    "test_path": "webtbs/tw36698"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `Variants`",
+    "log_path": "webtbs/tw3681.log",
+    "test_path": "webtbs/tw3681"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "webtbs/tw3700.log",
+    "test_path": "webtbs/tw3700"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `sockets`",
+    "log_path": "webtbs/tw37013.log",
+    "test_path": "webtbs/tw37013"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `sockets`",
+    "log_path": "webtbs/tw37060.log",
+    "test_path": "webtbs/tw37060"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "webtbs/tw37339.log",
+    "test_path": "webtbs/tw37339"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `GDeque`",
+    "log_path": "webtbs/tw37382.log",
+    "test_path": "webtbs/tw37382"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "webtbs/tw3765.log",
+    "test_path": "webtbs/tw3765"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `objects`",
+    "log_path": "webtbs/tw3796.log",
+    "test_path": "webtbs/tw3796"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `gqueue`",
+    "log_path": "webtbs/tw38306.log",
+    "test_path": "webtbs/tw38306"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "webtbs/tw3833.log",
+    "test_path": "webtbs/tw3833"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `BufStream`",
+    "log_path": "webtbs/tw38351.log",
+    "test_path": "webtbs/tw38351"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `Variants`",
+    "log_path": "webtbs/tw38429.log",
+    "test_path": "webtbs/tw38429"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `Variants`",
+    "log_path": "webtbs/tw3898.log",
+    "test_path": "webtbs/tw3898"
+  },
+  {
+    "category": "compiler_or_runtime_diagnostic",
+    "diagnostic": "tw39178.pp(49,8) Error: Identifier not found \"BMI2Support\"",
+    "log_path": "webtbs/tw39178.log",
+    "test_path": "webtbs/tw39178"
+  },
+  {
+    "category": "unclassified",
+    "diagnostic": "no diagnostic line found in harness log",
+    "log_path": "webtbs/tw3930.log",
+    "test_path": "webtbs/tw3930"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `gmap`",
+    "log_path": "webtbs/tw39354.log",
+    "test_path": "webtbs/tw39354"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "webtbs/tw3953a.log",
+    "test_path": "webtbs/tw3953a"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "webtbs/tw3953b.log",
+    "test_path": "webtbs/tw3953b"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `Generics.Collections`",
+    "log_path": "webtbs/tw39662.log",
+    "test_path": "webtbs/tw39662"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `StrUtils`",
+    "log_path": "webtbs/tw39709.log",
+    "test_path": "webtbs/tw39709"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `Variants`",
+    "log_path": "webtbs/tw3973.log",
+    "test_path": "webtbs/tw3973"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `strutils`",
+    "log_path": "webtbs/tw39885.log",
+    "test_path": "webtbs/tw39885"
+  },
+  {
+    "category": "unclassified",
+    "diagnostic": "no diagnostic line found in harness log",
+    "log_path": "webtbs/tw40012.log",
+    "test_path": "webtbs/tw40012"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `Generics.Collections`",
+    "log_path": "webtbs/tw40074.log",
+    "test_path": "webtbs/tw40074"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `dateutils`",
+    "log_path": "webtbs/tw40121.log",
+    "test_path": "webtbs/tw40121"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `Generics.Defaults`",
+    "log_path": "webtbs/tw40331.log",
+    "test_path": "webtbs/tw40331"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "webtbs/tw40624.log",
+    "test_path": "webtbs/tw40624"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `Variants`",
+    "log_path": "webtbs/tw4093.log",
+    "test_path": "webtbs/tw4093"
+  },
+  {
+    "category": "unclassified",
+    "diagnostic": "no diagnostic line found in harness log",
+    "log_path": "webtbs/tw41019.log",
+    "test_path": "webtbs/tw41019"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `StrUtils`",
+    "log_path": "webtbs/tw4119.log",
+    "test_path": "webtbs/tw4119"
+  },
+  {
+    "category": "unclassified",
+    "diagnostic": "no diagnostic line found in harness log",
+    "log_path": "webtbs/tw41270.log",
+    "test_path": "webtbs/tw41270"
+  },
+  {
+    "category": "compiler_or_runtime_diagnostic",
+    "diagnostic": "tw41460.pp(18,35) Fatal: Internal error 2008030101",
+    "log_path": "webtbs/tw41460.log",
+    "test_path": "webtbs/tw41460"
+  },
+  {
+    "category": "compiler_or_runtime_diagnostic",
+    "diagnostic": "tw41460c.pp(27,36) Fatal: Internal error 2008030101",
+    "log_path": "webtbs/tw41460c.log",
+    "test_path": "webtbs/tw41460c"
+  },
+  {
+    "category": "compiler_or_runtime_diagnostic",
+    "diagnostic": "tw41460d.pp(19,35) Fatal: Internal error 2008030101",
+    "log_path": "webtbs/tw41460d.log",
+    "test_path": "webtbs/tw41460d"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `strutils`",
+    "log_path": "webtbs/tw4260.log",
+    "test_path": "webtbs/tw4260"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `Variants`",
+    "log_path": "webtbs/tw4487.log",
+    "test_path": "webtbs/tw4487"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `StrUtils`",
+    "log_path": "webtbs/tw4540.log",
+    "test_path": "webtbs/tw4540"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `Variants`",
+    "log_path": "webtbs/tw4633.log",
+    "test_path": "webtbs/tw4633"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `Variants`",
+    "log_path": "webtbs/tw4634.log",
+    "test_path": "webtbs/tw4634"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `Variants`",
+    "log_path": "webtbs/tw4678.log",
+    "test_path": "webtbs/tw4678"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "webtbs/tw4700.log",
+    "test_path": "webtbs/tw4700"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `Variants`",
+    "log_path": "webtbs/tw4704.log",
+    "test_path": "webtbs/tw4704"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `Variants`",
+    "log_path": "webtbs/tw4705.log",
+    "test_path": "webtbs/tw4705"
+  },
+  {
+    "category": "unclassified",
+    "diagnostic": "no diagnostic line found in harness log",
+    "log_path": "webtbs/tw4809.log",
+    "test_path": "webtbs/tw4809"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `Objects`",
+    "log_path": "webtbs/tw5641.log",
+    "test_path": "webtbs/tw5641"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "webtbs/tw6641.log",
+    "test_path": "webtbs/tw6641"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `Variants`",
+    "log_path": "webtbs/tw7070a.log",
+    "test_path": "webtbs/tw7070a"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `Variants`",
+    "log_path": "webtbs/tw7070b.log",
+    "test_path": "webtbs/tw7070b"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `Variants`",
+    "log_path": "webtbs/tw7756.log",
+    "test_path": "webtbs/tw7756"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "webtbs/tw7803.log",
+    "test_path": "webtbs/tw7803"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "webtbs/tw7806.log",
+    "test_path": "webtbs/tw7806"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "webtbs/tw8055.log",
+    "test_path": "webtbs/tw8055"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "webtbs/tw8229.log",
+    "test_path": "webtbs/tw8229"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "webtbs/tw9098.log",
+    "test_path": "webtbs/tw9098"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "webtbs/tw9161.log",
+    "test_path": "webtbs/tw9161"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `Variants`",
+    "log_path": "webtbs/tw9162.log",
+    "test_path": "webtbs/tw9162"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `variants`",
+    "log_path": "webtbs/tw9233.log",
+    "test_path": "webtbs/tw9233"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `Variants`",
+    "log_path": "webtbs/tw9347.log",
+    "test_path": "webtbs/tw9347"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `Variants`",
+    "log_path": "webtbs/tw9347a.log",
+    "test_path": "webtbs/tw9347a"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `Variants`",
+    "log_path": "webtbs/tw9347b.log",
+    "test_path": "webtbs/tw9347b"
+  },
+  {
+    "category": "unclassified",
+    "diagnostic": "no diagnostic line found in harness log",
+    "log_path": "webtbf/tw22665b.log",
+    "test_path": "webtbf/tw22665b"
+  },
+  {
+    "category": "unclassified",
+    "diagnostic": "no diagnostic line found in harness log",
+    "log_path": "webtbf/tw25862.log",
+    "test_path": "webtbf/tw25862"
+  },
+  {
+    "category": "unclassified",
+    "diagnostic": "no diagnostic line found in harness log",
+    "log_path": "webtbf/tw3930a.log",
+    "test_path": "webtbf/tw3930a"
+  },
+  {
+    "category": "missing_test_dependency",
+    "diagnostic": "missing unit `Generics.Collections`",
+    "log_path": "webtbf/tw40034.log",
+    "test_path": "webtbf/tw40034"
+  }
+]
