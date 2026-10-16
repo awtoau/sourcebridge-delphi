@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=80"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sourcebridge-delphi"
+version = "0.1.0"
+description = "Delphi frontend pack for Sourcebridge"
+readme = "README.md"
+requires-python = ">=3.15"
+
+[project.scripts]
+sourcebridge-delphi-extract = "sourcebridge_delphi.extract:main"
+
+[tool.setuptools]
+packages = ["sourcebridge_delphi"]
