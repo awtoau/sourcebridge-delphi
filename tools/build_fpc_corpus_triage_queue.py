@@ -12,17 +12,31 @@ from typing import Any
 
 
 MISSING_UNIT = re.compile(r"Fatal: Can't find unit (?P<unit>\S+) used by")
+LINKER_FAILURE = re.compile(
+    r"undefined reference|relocation truncated to fit|Error while linking",
+    re.IGNORECASE,
+)
+SEMANTIC_DIFFERENCE = re.compile(
+    r"illegal type declaration of set elements|Generic type parameter .* does not match|"
+    r'Identifier not found "BMI2Support"',
+    re.IGNORECASE,
+)
 
 
 def classify(log: str) -> tuple[str, str]:
     missing = MISSING_UNIT.search(log)
     if missing is not None:
         return "missing_test_dependency", f"missing unit `{missing['unit']}`"
+    if LINKER_FAILURE.search(log) is not None:
+        return "linker_environment_failure", "linker could not produce the test executable"
+    semantic = SEMANTIC_DIFFERENCE.search(log)
+    if semantic is not None:
+        return "compiler_semantic_difference", semantic.group(0)
     for line in log.splitlines():
         if "Fatal:" in line or "Error:" in line:
             if "returned an error exitcode" not in line:
                 return "compiler_or_runtime_diagnostic", line
-    return "unclassified", "no diagnostic line found in harness log"
+    return "empty_harness_log", "harness recorded a failure without a diagnostic"
 
 
 def build_queue(output_directory: Path) -> list[dict[str, str]]:
@@ -32,6 +46,16 @@ def build_queue(output_directory: Path) -> list[dict[str, str]]:
     queue: list[dict[str, str]] = []
     for test_path in failure_list.read_text(encoding="utf-8").splitlines():
         if not test_path:
+            continue
+        if test_path.startswith("Note:"):
+            queue.append(
+                {
+                    "test_path": test_path,
+                    "log_path": "",
+                    "category": "harness_metadata",
+                    "diagnostic": test_path,
+                }
+            )
             continue
         log_path = output_directory / f"{test_path}.log"
         if log_path.is_file():

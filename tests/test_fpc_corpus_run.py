@@ -22,6 +22,22 @@ class FpcCorpusRunTests(unittest.TestCase):
         self.assertEqual(category, "missing_test_dependency")
         self.assertEqual(diagnostic, "missing unit `variants`")
 
+    def test_classifies_linker_and_semantic_differences(self) -> None:
+        self.assertEqual(
+            classify("Error: Error while linking\nundefined reference to `example`"),
+            ("linker_environment_failure", "linker could not produce the test executable"),
+        )
+        self.assertEqual(
+            classify('Error: Identifier not found "BMI2Support"'),
+            ("compiler_semantic_difference", 'Identifier not found "BMI2Support"'),
+        )
+
+    def test_classifies_empty_harness_log(self) -> None:
+        self.assertEqual(
+            classify(""),
+            ("empty_harness_log", "harness recorded a failure without a diagnostic"),
+        )
+
     def test_manifest_ignores_harness_output(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)

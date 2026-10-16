@@ -110,8 +110,9 @@ python3 dev.py run-corpus --corpus-dir ../fpc-compiler-tests \
 `harness_setup_failure` means the harness or its dependencies could not run.
 `harness_evidence_recorded` and `harness_triage_recorded` record only upstream
 compiler-test outcomes; they do not validate a conversion or justify a
-converter rule. The triage queue keeps missing units and missing harness logs
-separate from compiler diagnostics.
+converter rule. The triage queue keeps missing units, linker-environment
+failures, observed compiler semantic differences, empty harness logs, and
+harness metadata separate from general compiler diagnostics.
 
 The scalar fixtures remain conformance canaries, not the rule-development
 corpus. Re-run their focused validators directly:

@@ -12,8 +12,8 @@
     "test_path": "test/cg/tcase3"
   },
   {
-    "category": "compiler_or_runtime_diagnostic",
-    "diagnostic": "tcppcl1.pp(95,1) Error: Error while linking",
+    "category": "linker_environment_failure",
+    "diagnostic": "linker could not produce the test executable",
     "log_path": "test/cg/tcppcl1.log",
     "test_path": "test/cg/tcppcl1"
   },
@@ -48,8 +48,8 @@
     "test_path": "test/opt/tdfa11"
   },
   {
-    "category": "unclassified",
-    "diagnostic": "no diagnostic line found in harness log",
+    "category": "empty_harness_log",
+    "diagnostic": "harness recorded a failure without a diagnostic",
     "log_path": "test/opt/tdfa8.log",
     "test_path": "test/opt/tdfa8"
   },
@@ -60,8 +60,8 @@
     "test_path": "test/tand1"
   },
   {
-    "category": "unclassified",
-    "diagnostic": "no diagnostic line found in harness log",
+    "category": "empty_harness_log",
+    "diagnostic": "harness recorded a failure without a diagnostic",
     "log_path": "test/tarray15.log",
     "test_path": "test/tarray15"
   },
@@ -138,14 +138,14 @@
     "test_path": "test/textthr"
   },
   {
-    "category": "unclassified",
-    "diagnostic": "no diagnostic line found in harness log",
+    "category": "empty_harness_log",
+    "diagnostic": "harness recorded a failure without a diagnostic",
     "log_path": "test/timplements4a.log",
     "test_path": "test/timplements4a"
   },
   {
-    "category": "unclassified",
-    "diagnostic": "no diagnostic line found in harness log",
+    "category": "empty_harness_log",
+    "diagnostic": "harness recorded a failure without a diagnostic",
     "log_path": "test/timplements4b.log",
     "test_path": "test/timplements4b"
   },
@@ -180,8 +180,8 @@
     "test_path": "test/trtti17"
   },
   {
-    "category": "compiler_or_runtime_diagnostic",
-    "diagnostic": "tset6.pp(9,21) Error: illegal type declaration of set elements",
+    "category": "compiler_semantic_difference",
+    "diagnostic": "illegal type declaration of set elements",
     "log_path": "test/tset6.log",
     "test_path": "test/tset6"
   },
@@ -666,8 +666,8 @@
     "test_path": "tbs/tb0524"
   },
   {
-    "category": "compiler_or_runtime_diagnostic",
-    "diagnostic": "tb0528.pp(34,1) Error: Error while linking",
+    "category": "linker_environment_failure",
+    "diagnostic": "linker could not produce the test executable",
     "log_path": "tbs/tb0528.log",
     "test_path": "tbs/tb0528"
   },
@@ -714,15 +714,15 @@
     "test_path": "webtbs/tu2002"
   },
   {
-    "category": "compiler_or_runtime_diagnostic",
-    "diagnostic": "tw0876.pp(32,1) Error: Error while linking",
+    "category": "linker_environment_failure",
+    "diagnostic": "linker could not produce the test executable",
     "log_path": "webtbs/tw0876.log",
     "test_path": "webtbs/tw0876"
   },
   {
-    "category": "missing_harness_log",
-    "diagnostic": "no log file exists for failure-list entry",
-    "log_path": "Note: This test needs C libraries.log",
+    "category": "harness_metadata",
+    "diagnostic": "Note: This test needs C libraries",
+    "log_path": "",
     "test_path": "Note: This test needs C libraries"
   },
   {
@@ -774,8 +774,8 @@
     "test_path": "webtbs/tw1152"
   },
   {
-    "category": "unclassified",
-    "diagnostic": "no diagnostic line found in harness log",
+    "category": "empty_harness_log",
+    "diagnostic": "harness recorded a failure without a diagnostic",
     "log_path": "webtbs/tw12038.log",
     "test_path": "webtbs/tw12038"
   },
@@ -858,8 +858,8 @@
     "test_path": "webtbs/tw16787"
   },
   {
-    "category": "compiler_or_runtime_diagnostic",
-    "diagnostic": "tw17236.pp(10,1) Error: Error while linking",
+    "category": "linker_environment_failure",
+    "diagnostic": "linker could not produce the test executable",
     "log_path": "webtbs/tw17236.log",
     "test_path": "webtbs/tw17236"
   },
@@ -888,8 +888,8 @@
     "test_path": "webtbs/tw20873"
   },
   {
-    "category": "unclassified",
-    "diagnostic": "no diagnostic line found in harness log",
+    "category": "empty_harness_log",
+    "diagnostic": "harness recorded a failure without a diagnostic",
     "log_path": "webtbs/tw22744b.log",
     "test_path": "webtbs/tw22744b"
   },
@@ -924,8 +924,8 @@
     "test_path": "webtbs/tw26472"
   },
   {
-    "category": "compiler_or_runtime_diagnostic",
-    "diagnostic": "tw26481.pp(25,34) Error: Generic type parameter \"THashFactory\" does not match with the one in the declaration",
+    "category": "compiler_semantic_difference",
+    "diagnostic": "Generic type parameter \"THashFactory\" does not match",
     "log_path": "webtbs/tw26481.log",
     "test_path": "webtbs/tw26481"
   },
@@ -960,14 +960,14 @@
     "test_path": "webtbs/tw2809"
   },
   {
-    "category": "unclassified",
-    "diagnostic": "no diagnostic line found in harness log",
+    "category": "empty_harness_log",
+    "diagnostic": "harness recorded a failure without a diagnostic",
     "log_path": "webtbs/tw2886.log",
     "test_path": "webtbs/tw2886"
   },
   {
-    "category": "unclassified",
-    "diagnostic": "no diagnostic line found in harness log",
+    "category": "empty_harness_log",
+    "diagnostic": "harness recorded a failure without a diagnostic",
     "log_path": "webtbs/tw29957.log",
     "test_path": "webtbs/tw29957"
   },
@@ -1152,14 +1152,14 @@
     "test_path": "webtbs/tw3898"
   },
   {
-    "category": "compiler_or_runtime_diagnostic",
-    "diagnostic": "tw39178.pp(49,8) Error: Identifier not found \"BMI2Support\"",
+    "category": "compiler_semantic_difference",
+    "diagnostic": "Identifier not found \"BMI2Support\"",
     "log_path": "webtbs/tw39178.log",
     "test_path": "webtbs/tw39178"
   },
   {
-    "category": "unclassified",
-    "diagnostic": "no diagnostic line found in harness log",
+    "category": "empty_harness_log",
+    "diagnostic": "harness recorded a failure without a diagnostic",
     "log_path": "webtbs/tw3930.log",
     "test_path": "webtbs/tw3930"
   },
@@ -1296,8 +1296,8 @@
     "test_path": "webtbs/tw4705"
   },
   {
-    "category": "unclassified",
-    "diagnostic": "no diagnostic line found in harness log",
+    "category": "empty_harness_log",
+    "diagnostic": "harness recorded a failure without a diagnostic",
     "log_path": "webtbs/tw4809.log",
     "test_path": "webtbs/tw4809"
   },
@@ -1398,20 +1398,20 @@
     "test_path": "webtbs/tw9347b"
   },
   {
-    "category": "unclassified",
-    "diagnostic": "no diagnostic line found in harness log",
+    "category": "empty_harness_log",
+    "diagnostic": "harness recorded a failure without a diagnostic",
     "log_path": "webtbf/tw22665b.log",
     "test_path": "webtbf/tw22665b"
   },
   {
-    "category": "unclassified",
-    "diagnostic": "no diagnostic line found in harness log",
+    "category": "empty_harness_log",
+    "diagnostic": "harness recorded a failure without a diagnostic",
     "log_path": "webtbf/tw25862.log",
     "test_path": "webtbf/tw25862"
   },
   {
-    "category": "unclassified",
-    "diagnostic": "no diagnostic line found in harness log",
+    "category": "empty_harness_log",
+    "diagnostic": "harness recorded a failure without a diagnostic",
     "log_path": "webtbf/tw3930a.log",
     "test_path": "webtbf/tw3930a"
   },
