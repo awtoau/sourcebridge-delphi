@@ -47,6 +47,15 @@ Re-run the pinned source validation at any time:
 python3 tools/validate_fpc_fixture.py
 ```
 
+The bounded scalar behavior observation confirms the selected variant's
+`Integer` and `Cardinal` widths and non-overflow addition examples:
+
+```text
+python3 tools/validate_fpc_scalar_behavior.py
+```
+
+It does not establish overflow behavior.
+
 ```text
 sourcebridge-delphi-extract fixtures/scalars.pas
 ```
