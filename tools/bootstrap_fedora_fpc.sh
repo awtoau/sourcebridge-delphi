@@ -12,6 +12,5 @@ sudo dnf install -y fpc
 
 cd "$repository_root"
 python3 tools/toolchain_report.py
-mkdir -p tmp/fpc
-fpc -Mdelphi -FUtmp/fpc -FEtmp/fpc fixtures/scalars.pas
+python3 tools/validate_fpc_fixture.py
 python3.15t -m unittest discover -s tests -v

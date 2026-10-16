@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "source_language": "delphi",
+  "compiler": {
+    "family": "free-pascal",
+    "version": "3.2.3",
+    "target_cpu": "x86_64",
+    "target_os": "linux",
+    "mode": "delphi"
+  },
+  "status": "source-compiled",
+  "semantic_limits": [
+    "This baseline proves only that the fixture compiles.",
+    "It does not establish overflow behavior, ABI compatibility, or Embarcadero Delphi equivalence."
+  ]
+}
