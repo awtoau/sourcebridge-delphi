@@ -24,3 +24,11 @@ class ExtractTests(unittest.TestCase):
         )
         with self.assertRaisesRegex(ExtractionError, "only `Result := Left \\+ Right`"):
             extract(path)
+
+    def test_embeds_pinned_variant(self) -> None:
+        result = extract(
+            Path("fixtures/scalars.pas"),
+            Path("variants/fpc-3.2.3-x86_64-linux.json"),
+        )
+        self.assertEqual(result["variant"]["compiler"]["version"], "3.2.3")
+        self.assertEqual(result["limitations"], ["fixture grammar only"])

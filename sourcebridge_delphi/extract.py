@@ -47,7 +47,19 @@ def _parameters(text: str, line: int) -> list[dict[str, str]]:
     return values
 
 
-def extract(path: Path) -> dict[str, Any]:
+def _variant(path: Path | None) -> dict[str, Any] | None:
+    if path is None:
+        return None
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as error:
+        raise ExtractionError(f"{path}: cannot read variant: {error}") from error
+    if not isinstance(data, dict) or not isinstance(data.get("compiler"), dict):
+        raise ExtractionError(f"{path}: variant must contain a compiler object")
+    return data
+
+
+def extract(path: Path, variant_path: Path | None = None) -> dict[str, Any]:
     try:
         lines = path.read_text(encoding="utf-8").splitlines()
     except OSError as error:
@@ -109,7 +121,7 @@ def extract(path: Path) -> dict[str, Any]:
         raise ExtractionError(f"{path}: missing unit declaration")
     if not facts:
         raise ExtractionError(f"{path}: no supported function implementations found")
-    return {
+    result = {
         "schema_version": 1,
         "source_language": "delphi",
         "source_path": path.as_posix(),
@@ -120,14 +132,20 @@ def extract(path: Path) -> dict[str, Any]:
             "no compiler, dialect, or runtime validation",
         ],
     }
+    variant = _variant(variant_path)
+    if variant is not None:
+        result["variant"] = variant
+        result["limitations"] = ["fixture grammar only"]
+    return result
 
 
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("source", type=Path)
+    parser.add_argument("--variant", type=Path)
     args = parser.parse_args()
     try:
-        print(json.dumps(extract(args.source), indent=2, sort_keys=True))
+        print(json.dumps(extract(args.source, args.variant), indent=2, sort_keys=True))
     except ExtractionError as error:
         print(error, file=sys.stderr)
         return 1

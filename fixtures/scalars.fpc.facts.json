@@ -1,0 +1,81 @@
+{
+  "facts": [
+    {
+      "kind": "scalar_addition_function",
+      "name": "AddSigned",
+      "operands": [
+        "Left",
+        "Right"
+      ],
+      "operation_span": {
+        "end_line": 12,
+        "start_line": 12
+      },
+      "parameters": [
+        {
+          "name": "Left",
+          "type": "integer"
+        },
+        {
+          "name": "Right",
+          "type": "integer"
+        }
+      ],
+      "return_type": "integer",
+      "signature_span": {
+        "end_line": 10,
+        "start_line": 10
+      }
+    },
+    {
+      "kind": "scalar_addition_function",
+      "name": "AddUnsigned",
+      "operands": [
+        "Left",
+        "Right"
+      ],
+      "operation_span": {
+        "end_line": 17,
+        "start_line": 17
+      },
+      "parameters": [
+        {
+          "name": "Left",
+          "type": "cardinal"
+        },
+        {
+          "name": "Right",
+          "type": "cardinal"
+        }
+      ],
+      "return_type": "cardinal",
+      "signature_span": {
+        "end_line": 15,
+        "start_line": 15
+      }
+    }
+  ],
+  "limitations": [
+    "fixture grammar only"
+  ],
+  "schema_version": 1,
+  "source_language": "delphi",
+  "source_path": "fixtures/scalars.pas",
+  "unit": "Scalars",
+  "variant": {
+    "compiler": {
+      "family": "free-pascal",
+      "mode": "delphi",
+      "target_cpu": "x86_64",
+      "target_os": "linux",
+      "version": "3.2.3"
+    },
+    "schema_version": 1,
+    "semantic_limits": [
+      "This baseline proves only that the fixture compiles.",
+      "It does not establish overflow behavior, ABI compatibility, or Embarcadero Delphi equivalence."
+    ],
+    "source_language": "delphi",
+    "status": "source-compiled"
+  }
+}

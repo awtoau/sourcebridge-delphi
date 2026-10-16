@@ -56,6 +56,12 @@ python3 tools/validate_fpc_scalar_behavior.py
 
 It does not establish overflow behavior.
 
+Create source facts coupled to the pinned compiler variant for a target backend:
+
+```text
+python3 tools/extract_fpc_fixture.py
+```
+
 ```text
 sourcebridge-delphi-extract fixtures/scalars.pas
 ```
