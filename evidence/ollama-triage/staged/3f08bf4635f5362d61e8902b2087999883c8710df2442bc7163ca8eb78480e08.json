@@ -1,0 +1,44 @@
+{
+  "elapsed_seconds": 41.565855242995895,
+  "input": {
+    "category": "compiler_or_runtime_diagnostic",
+    "diagnostic": "tcppcl1.pp(95,1) Error: Error while linking",
+    "log_path": "test/cg/tcppcl1.log",
+    "test_path": "test/cg/tcppcl1"
+  },
+  "model": {
+    "digest": "9ec8897f747e246e970bc5cfdda85d22f1123dc2e3d34978a010a75968716849",
+    "name": "qwen2.5-coder:14b"
+  },
+  "payload_sha256": "3f08bf4635f5362d61e8902b2087999883c8710df2442bc7163ca8eb78480e08",
+  "proposal": {
+    "category": "compiler_or_runtime_diagnostic",
+    "classification": "compiler_diagnostic",
+    "diagnostic": "tcppcl1.pp(95,1) Error: Error while linking",
+    "log_path": "test/cg/tcppcl1.log",
+    "next_action": "Review the log file for specific linking errors and dependencies.",
+    "open_question": "What specific linking errors are reported in the log file?",
+    "status_claim": "unvalidated-llm-proposal",
+    "test_path": "test/cg/tcppcl1"
+  },
+  "raw_response": {
+    "created_at": "2026-10-16T02:47:10.613697825Z",
+    "done": true,
+    "done_reason": "stop",
+    "eval_count": 125,
+    "eval_duration": 4671198000,
+    "load_duration": 22565060777,
+    "message": {
+      "content": "{\n  \"category\": \"compiler_or_runtime_diagnostic\",\n  \"classification\": \"compiler_diagnostic\",\n  \"diagnostic\": \"tcppcl1.pp(95,1) Error: Error while linking\",\n  \"log_path\": \"test/cg/tcppcl1.log\",\n  \"next_action\": \"Review the log file for specific linking errors and dependencies.\",\n  \"open_question\": \"What specific linking errors are reported in the log file?\",\n  \"status_claim\": \"unvalidated-llm-proposal\",\n  \"test_path\": \"test/cg/tcppcl1\"\n}",
+      "role": "assistant"
+    },
+    "model": "qwen2.5-coder:14b",
+    "prompt_eval_cached_count": 0,
+    "prompt_eval_count": 185,
+    "prompt_eval_duration": 14239142000,
+    "total_duration": 41558398180
+  },
+  "sequence": 1,
+  "status": "unvalidated-llm-proposal",
+  "worker_session_id": "b346db55e2b43766a636ab5f7a3d7c8cbb04599e293e01ff558c58cc20115f04"
+}

@@ -1,0 +1,44 @@
+{
+  "elapsed_seconds": 3.47619460200076,
+  "input": {
+    "category": "compiler_or_runtime_diagnostic",
+    "diagnostic": "tb0528.pp(34,1) Error: Error while linking",
+    "log_path": "tbs/tb0528.log",
+    "test_path": "tbs/tb0528"
+  },
+  "model": {
+    "digest": "9ec8897f747e246e970bc5cfdda85d22f1123dc2e3d34978a010a75968716849",
+    "name": "qwen2.5-coder:14b"
+  },
+  "payload_sha256": "4ef7656b3a62d6629c3320e955454a3c868128eebc5ad699ca372c1067dfadb4",
+  "proposal": {
+    "category": "compiler_or_runtime_diagnostic",
+    "classification": "compiler_diagnostic",
+    "diagnostic": "tb0528.pp(34,1) Error: Error while linking",
+    "log_path": "tbs/tb0528.log",
+    "next_action": "Review the log file for detailed linking errors and dependencies.",
+    "open_question": "What specific linking errors are reported in the log file?",
+    "status_claim": "unvalidated-llm-proposal",
+    "test_path": "tbs/tb0528"
+  },
+  "raw_response": {
+    "created_at": "2026-10-16T02:47:32.922589895Z",
+    "done": true,
+    "done_reason": "stop",
+    "eval_count": 128,
+    "eval_duration": 3352722000,
+    "load_duration": 2423414,
+    "message": {
+      "content": "{\n  \"category\": \"compiler_or_runtime_diagnostic\",\n  \"classification\": \"compiler_diagnostic\",\n  \"diagnostic\": \"tb0528.pp(34,1) Error: Error while linking\",\n  \"log_path\": \"tbs/tb0528.log\",\n  \"next_action\": \"Review the log file for detailed linking errors and dependencies.\",\n  \"open_question\": \"What specific linking errors are reported in the log file?\",\n  \"status_claim\": \"unvalidated-llm-proposal\",\n  \"test_path\": \"tbs/tb0528\"\n}",
+      "role": "assistant"
+    },
+    "model": "qwen2.5-coder:14b",
+    "prompt_eval_cached_count": 136,
+    "prompt_eval_count": 188,
+    "prompt_eval_duration": 51248000,
+    "total_duration": 3472567612
+  },
+  "sequence": 8,
+  "status": "unvalidated-llm-proposal",
+  "worker_session_id": "b346db55e2b43766a636ab5f7a3d7c8cbb04599e293e01ff558c58cc20115f04"
+}

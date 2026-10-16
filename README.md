@@ -112,6 +112,16 @@ python3 tools/build_fpc_corpus_triage_queue.py \
   --output evidence/fpc-compiler-tests-triage.json
 ```
 
+For bounded local proposal assistance, run one Delphi-only batch of up to 20
+non-setup diagnostics. The default is 10. It uses the pinned local model,
+validates every evidence reference literally, retains both staged and rejected
+responses under `evidence/ollama-triage/`, and unloads the model when the
+batch completes. It never changes rules or generated output:
+
+```text
+python3 tools/run_fpc_triage_batch.py
+```
+
 ```text
 sourcebridge-delphi-extract fixtures/scalars.pas
 ```

@@ -1,0 +1,44 @@
+{
+  "elapsed_seconds": 3.704593105998356,
+  "input": {
+    "category": "compiler_or_runtime_diagnostic",
+    "diagnostic": "tw0876.pp(32,1) Error: Error while linking",
+    "log_path": "webtbs/tw0876.log",
+    "test_path": "webtbs/tw0876"
+  },
+  "model": {
+    "digest": "9ec8897f747e246e970bc5cfdda85d22f1123dc2e3d34978a010a75968716849",
+    "name": "qwen2.5-coder:14b"
+  },
+  "payload_sha256": "1b1a79e8d353aea1cbbb677eab645fedc197b126405fdd349b62ab275ce096a4",
+  "proposal": {
+    "category": "compiler_or_runtime_diagnostic",
+    "classification": "compiler_diagnostic",
+    "diagnostic": "tw0876.pp(32,1) Error: Error while linking",
+    "log_path": "webtbs/tw0876.log",
+    "next_action": "Review the log file for specific linking errors and dependencies that might be missing or incorrectly configured.",
+    "open_question": "What specific linking errors are reported in the log file?",
+    "status_claim": "unvalidated-llm-proposal",
+    "test_path": "webtbs/tw0876"
+  },
+  "raw_response": {
+    "created_at": "2026-10-16T02:47:36.623356931Z",
+    "done": true,
+    "done_reason": "stop",
+    "eval_count": 137,
+    "eval_duration": 3584160000,
+    "load_duration": 3410475,
+    "message": {
+      "content": "{\n  \"category\": \"compiler_or_runtime_diagnostic\",\n  \"classification\": \"compiler_diagnostic\",\n  \"diagnostic\": \"tw0876.pp(32,1) Error: Error while linking\",\n  \"log_path\": \"webtbs/tw0876.log\",\n  \"next_action\": \"Review the log file for specific linking errors and dependencies that might be missing or incorrectly configured.\",\n  \"open_question\": \"What specific linking errors are reported in the log file?\",\n  \"status_claim\": \"unvalidated-llm-proposal\",\n  \"test_path\": \"webtbs/tw0876\"\n}",
+      "role": "assistant"
+    },
+    "model": "qwen2.5-coder:14b",
+    "prompt_eval_cached_count": 136,
+    "prompt_eval_count": 190,
+    "prompt_eval_duration": 45189000,
+    "total_duration": 3699104012
+  },
+  "sequence": 9,
+  "status": "unvalidated-llm-proposal",
+  "worker_session_id": "b346db55e2b43766a636ab5f7a3d7c8cbb04599e293e01ff558c58cc20115f04"
+}
