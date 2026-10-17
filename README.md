@@ -1,8 +1,8 @@
 # Sourcebridge Delphi frontend pack
 
-This pack extracts Delphi source facts for Sourcebridge profiles. It does not
-emit target-language code and does not claim compiler, dialect, or runtime
-validation that it has not run.
+This pack extracts bounded Delphi source facts and emits Rust only for the
+explicitly supported Stage-1 function shapes. It records compiler outcomes
+without claiming unsupported dialect, runtime, or equivalence behavior.
 
 ## Stage-1 scope
 
@@ -11,6 +11,8 @@ The first supported fixture grammar extracts:
 - a `unit` name;
 - `function` signatures using `Integer` or `Cardinal` parameters and returns;
 - a function body consisting of `Result := Left + Right`.
+- a Boolean comparison branch of the form `if Left <op> Right then Result :=
+  True else Result := False`;
 - the constrained `ScalarLayout` `program` fixture with literal
   `SizeOf(Integer/Cardinal)` and typed `1 + 2` output expressions.
 
@@ -143,7 +145,7 @@ integration:
   comparison `440`, branch control flow `438`, and string length `441`;
 - `tools/run_sourcebridge_engine_test.py` is a `json-command` adapter. It
   checks the pinned FPC variant, compiles the Stage-1 fixture in Delphi mode,
-  and invokes the existing extractor.
+  extracts facts, emits bounded Rust, and compiles the Rust module.
 
 The adapter honors `SOURCEBRIDGE_FPC`, so the `sourcebridge-fpc` wrapper built
 by `bootstrap-runtime` can be reused instead of the host `fpc`. With the
@@ -155,11 +157,12 @@ sourcebridge dev sourcebridge-delphi test 437 \
   --pack-manifest sourcebridge-delphi.pack.json
 ```
 
-The expected structured result is source `passed`, extraction `passed`,
-target `blocked`, and oracle `skipped`. This is a frontend smoke test only:
-the pack does not invoke a target backend, does not compare generated target
-behavior, and does not claim a general Delphi converter, Embarcadero Delphi
-equivalence, or target equivalence.
+For test `437`, the expected structured result is source `passed`, extraction
+`passed`, target `passed`, and oracle `skipped`. The target result is a real
+`rustc --crate-type lib` compile of generated code. The oracle remains skipped
+because a unit-only fixture has no executable source/target harness to compare.
+This does not claim a general Delphi converter, Embarcadero Delphi equivalence,
+or target equivalence.
 
 The focused boolean branch case can be run with the same adapter:
 
@@ -170,14 +173,16 @@ sourcebridge dev sourcebridge-delphi test 438 \
 ```
 
 It covers a Delphi-mode `Boolean` function using an integer comparison and
-`if`/`else` result assignment. The extractor reports only this fixture fact;
-it does not claim general Pascal control-flow support.
+`if`/`else` result assignment. It follows the same emitted-Rust and target
+compile contract as test `437`; it does not claim general Pascal control-flow
+support.
 
 The Boolean-expression and string-length cases intentionally report extraction
 `failed` because the current extractor does not support those primitives.
-The integer-layout program now reports extraction `passed` for its constrained
-source expressions only; target remains `blocked` and oracle remains `skipped`
-for every basics case.
+The integer-layout program reports extraction `passed` for its constrained
+source expressions only; target remains `blocked`. Oracle remains `skipped`
+for every basics case because no fixture currently has an executable
+source/target comparison harness.
 
 ## Prototype engine-test inventory
 
