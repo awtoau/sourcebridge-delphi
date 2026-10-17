@@ -134,9 +134,10 @@ integration:
 - `sourcebridge-delphi.pack.json` declares the frontend and its engine-test
   catalogue;
 - `engine-tests.json` owns stable test ID `437` (outside the known C# IDs
-  `434`–`436`) and the next basics candidate `438`;
+  `434`–`436`) plus the ordered basics cases `439`, `440`, `438`, and `441`;
 - `rule-curriculum.json` is the version-controlled `basics` selector
-  curriculum, ordered from rule/test `437` to candidate rule/test `438`;
+  curriculum, ordered as addition `437`, integer layout `439`, Boolean
+  comparison `440`, branch control flow `438`, and string length `441`;
 - `tools/run_sourcebridge_engine_test.py` is a `json-command` adapter. It
   checks the pinned FPC variant, compiles the Stage-1 fixture in Delphi mode,
   and invokes the existing extractor.
@@ -157,7 +158,7 @@ the pack does not invoke a target backend, does not compare generated target
 behavior, and does not claim a general Delphi converter, Embarcadero Delphi
 equivalence, or target equivalence.
 
-The focused boolean candidate can be run with the same adapter:
+The focused boolean branch case can be run with the same adapter:
 
 ```text
 sourcebridge dev sourcebridge-delphi test 438 \
@@ -168,3 +169,8 @@ sourcebridge dev sourcebridge-delphi test 438 \
 It covers a Delphi-mode `Boolean` function using an integer comparison and
 `if`/`else` result assignment. The extractor reports only this fixture fact;
 it does not claim general Pascal control-flow support.
+
+The integer-layout, boolean-expression, and string-length cases intentionally
+report extraction `failed` because the current extractor does not support
+those primitives. Their source status is still independently reported as
+`passed`; target remains `blocked` and oracle remains `skipped`.
