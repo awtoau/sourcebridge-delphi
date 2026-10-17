@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "pack_id": "sourcebridge-delphi",
+  "adapter": {
+    "id": "json-command",
+    "config": {
+      "argv": [
+        "python3",
+        "{fixture_dir}/../tools/run_sourcebridge_engine_test.py",
+        "--fixture",
+        "{fixture_path}",
+        "--variant",
+        "{fixture_dir}/../variants/fpc-3.2.3-x86_64-linux.json"
+      ],
+      "timeout_seconds": 60
+    }
+  },
+  "tests": [
+    {
+      "id": 437,
+      "name": "stage1-fpc-source-and-extraction",
+      "fixture": "fixtures/scalars.pas",
+      "expected": {
+        "source": {
+          "status": "passed"
+        },
+        "extraction": {
+          "status": "passed"
+        },
+        "target": {
+          "status": "blocked"
+        },
+        "oracle": {
+          "status": "skipped"
+        }
+      }
+    }
+  ]
+}
