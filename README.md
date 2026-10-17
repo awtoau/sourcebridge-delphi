@@ -174,3 +174,46 @@ The integer-layout, boolean-expression, and string-length cases intentionally
 report extraction `failed` because the current extractor does not support
 those primitives. Their source status is still independently reported as
 `passed`; target remains `blocked` and oracle remains `skipped`.
+
+## Prototype engine-test inventory
+
+Create a JSON inventory directly from the registered `engine-tests.json`
+catalogue. The deterministic mode records each fixture's SHA-256 and runs the
+existing structured adapter; if the adapter cannot run, its declared
+catalogue outcome is retained and marked as such rather than being replaced
+with an invented result:
+
+```text
+python3 tools/inventory_engine_tests.py \
+  --catalogue engine-tests.json \
+  --output inventory.json
+```
+
+The report includes source, extraction, target, and oracle statuses for every
+registered test. It is deliberately read-only: the command does not modify
+the catalogue, rules, or Sourcebridge core.
+
+Optional local Ollama enrichment is explicitly supplemental and
+non-authoritative. Supply the endpoint, model, and the user-provided model
+digest together:
+
+```text
+python3 tools/inventory_engine_tests.py \
+  --ollama-endpoint http://localhost:11434 \
+  --ollama-model delphi-planner \
+  --ollama-digest sha256:... \
+  --output inventory-with-notes.json
+```
+
+Each small fixture is sent with deterministic facts. The response must be
+strict JSON containing `language_features`, `complexity_band`,
+`prerequisites`, and `uncertainties`; the report retains the raw response,
+model and model digest, and prompt SHA-256. Ollama notes cannot create or
+change rules or catalogue entries and cannot claim target equivalence.
+Without all three Ollama options, no network or model request is made.
+
+Focused tests:
+
+```text
+python3 -m unittest discover -s tests -p 'test_inventory_engine_tests.py'
+```
