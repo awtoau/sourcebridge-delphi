@@ -26,6 +26,10 @@ REQUIRED_ENRICHMENT_KEYS = {
 }
 
 
+class OllamaEnrichmentError(RuntimeError):
+    """An optional Ollama request failed or returned invalid annotation JSON."""
+
+
 def sha256_bytes(value: bytes) -> str:
     return hashlib.sha256(value).hexdigest()
 
@@ -180,13 +184,9 @@ def build_report(
                     ollama_endpoint, ollama_model or "", ollama_digest or "", prompt, timeout
                 )
             except (OSError, ValueError, json.JSONDecodeError) as error:
-                entry["ollama"] = {
-                    "authoritative": False,
-                    "model": ollama_model,
-                    "model_digest": ollama_digest,
-                    "prompt_sha256": sha256_text(prompt),
-                    "error": str(error),
-                }
+                raise OllamaEnrichmentError(
+                    f"{case['id']} ({case['name']}): {error}"
+                ) from error
         tests.append(entry)
     return {
         "schema_version": 1,
@@ -209,13 +209,17 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
     if bool(args.ollama_endpoint) != bool(args.ollama_model and args.ollama_digest):
         parser.error("--ollama-endpoint, --ollama-model, and --ollama-digest must be supplied together")
-    report = build_report(
-        args.catalogue.resolve(),
-        ollama_endpoint=args.ollama_endpoint,
-        ollama_model=args.ollama_model,
-        ollama_digest=args.ollama_digest,
-        timeout=args.timeout,
-    )
+    try:
+        report = build_report(
+            args.catalogue.resolve(),
+            ollama_endpoint=args.ollama_endpoint,
+            ollama_model=args.ollama_model,
+            ollama_digest=args.ollama_digest,
+            timeout=args.timeout,
+        )
+    except OllamaEnrichmentError as error:
+        print(f"Ollama enrichment failed: {error}", file=sys.stderr)
+        return 1
     output = json.dumps(report, indent=2, sort_keys=True) + "\n"
     if args.output:
         args.output.write_text(output, encoding="utf-8")

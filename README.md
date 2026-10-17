@@ -197,6 +197,22 @@ Optional local Ollama enrichment is explicitly supplemental and
 non-authoritative. Supply the endpoint, model, and the user-provided model
 digest together:
 
+In a separate visible VS Code integrated terminal, start the operational
+monitor first and leave it running while making optional inventory or proposal
+runs:
+
+```text
+python3 tools/monitor_ollama.py \
+  --endpoint http://localhost:11434 \
+  --interval 5
+```
+
+It polls `/api/ps` and displays loaded model names, digests, sizes, and expiry
+times. This is an operational monitor only; its output is not evidence,
+validation, or a target-equivalence result.
+
+Then run the optional enrichment:
+
 ```text
 python3 tools/inventory_engine_tests.py \
   --ollama-endpoint http://localhost:11434 \
@@ -211,6 +227,9 @@ strict JSON containing `language_features`, `complexity_band`,
 model and model digest, and prompt SHA-256. Ollama notes cannot create or
 change rules or catalogue entries and cannot claim target equivalence.
 Without all three Ollama options, no network or model request is made.
+If an optional Ollama request fails or returns invalid schema, the inventory
+command exits non-zero and emits no success-shaped report. Deterministic-only
+mode retains its no-network behavior.
 
 Focused tests:
 
