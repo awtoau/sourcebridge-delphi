@@ -36,6 +36,44 @@
       }
     },
     {
+      "id": 439,
+      "name": "basics-fpc-integer-layout",
+      "fixture": "fixtures/scalar_layout.pas",
+      "expected": {
+        "source": {
+          "status": "passed"
+        },
+        "extraction": {
+          "status": "failed"
+        },
+        "target": {
+          "status": "blocked"
+        },
+        "oracle": {
+          "status": "skipped"
+        }
+      }
+    },
+    {
+      "id": 440,
+      "name": "basics-fpc-boolean-comparison-expression",
+      "fixture": "fixtures/booleanexpression.pas",
+      "expected": {
+        "source": {
+          "status": "passed"
+        },
+        "extraction": {
+          "status": "failed"
+        },
+        "target": {
+          "status": "blocked"
+        },
+        "oracle": {
+          "status": "skipped"
+        }
+      }
+    },
+    {
       "id": 438,
       "name": "basics-fpc-boolean-comparison-branch",
       "fixture": "fixtures/booleancomparison.pas",
@@ -45,6 +83,25 @@
         },
         "extraction": {
           "status": "passed"
+        },
+        "target": {
+          "status": "blocked"
+        },
+        "oracle": {
+          "status": "skipped"
+        }
+      }
+    },
+    {
+      "id": 441,
+      "name": "basics-fpc-string-length-primitive",
+      "fixture": "fixtures/stringlength.pas",
+      "expected": {
+        "source": {
+          "status": "passed"
+        },
+        "extraction": {
+          "status": "failed"
         },
         "target": {
           "status": "blocked"

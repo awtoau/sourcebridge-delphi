@@ -9,8 +9,23 @@
     },
     {
       "order": 2,
+      "rule": "delphi.basics.integer-layout",
+      "test_id": 439
+    },
+    {
+      "order": 3,
+      "rule": "delphi.basics.boolean-comparison-expression",
+      "test_id": 440
+    },
+    {
+      "order": 4,
       "rule": "delphi.basics.boolean-comparison-branch",
       "test_id": 438
+    },
+    {
+      "order": 5,
+      "rule": "delphi.basics.string-length-primitive",
+      "test_id": 441
     }
   ]
 }
