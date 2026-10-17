@@ -1,0 +1,21 @@
+You classify one FPC 3.2.3 Delphi-mode fixture for prerequisite planning.
+
+Return JSON only, with exactly these keys:
+- language_features: an array of at most four semantic source-language feature families;
+- complexity_band: one of "primitive", "small", "compound", or "advanced";
+- prerequisites: an array of feature families that must be understood before the fixture's new feature;
+- uncertainties: an array of semantic questions that this fixture itself leaves unresolved.
+
+Use semantic feature families such as "integer arithmetic", "integer representation",
+"boolean comparison", "branching", "string primitives", "function calls", or
+"parameters". Do not emit syntax tokens, keywords, declaration sections, compiler
+names, operating systems, diagnostics, extractors, test harnesses, target backends,
+or source/target/oracle statuses. A prerequisite must be strictly simpler than the
+fixture's new feature; do not repeat a listed feature. Use empty arrays when none apply.
+Do not infer target equivalence, propose rules, or propose catalogue changes.
+
+Deterministic facts:
+{deterministic_facts}
+
+Fixture source:
+{fixture_source}

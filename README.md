@@ -224,12 +224,40 @@ python3 tools/inventory_engine_tests.py \
 Each small fixture is sent with deterministic facts. The response must be
 strict JSON containing `language_features`, `complexity_band`,
 `prerequisites`, and `uncertainties`; the report retains the raw response,
-model and model digest, and prompt SHA-256. Ollama notes cannot create or
+model and model digest, and the rendered prompt and versioned template
+digests. The prompt template is version-controlled at
+`prompts/engine-test-inventory-v1.txt`; tune it through a new template file
+and an explicit `--prompt-template-version`, then compare saved evidence
+runs. Ollama notes cannot create or
 change rules or catalogue entries and cannot claim target equivalence.
 Without all three Ollama options, no network or model request is made.
 If an optional Ollama request fails or returns invalid schema, the inventory
 command exits non-zero and emits no success-shaped report. Deterministic-only
 mode retains its no-network behavior.
+
+To persist a supplemental run in the shared Sourcebridge evidence database,
+write one importable record per fixture, import the engine-test catalogue into
+that database, then import only the generated evidence directory:
+
+```text
+python3 tools/inventory_engine_tests.py \
+  --ollama-endpoint http://localhost:11434 \
+  --ollama-model qwen2.5-coder:7b \
+  --ollama-digest <exact-local-digest> \
+  --evidence-directory evidence/ollama-test-inventory
+
+sourcebridge test import \
+  --database evidence/sourcebridge.db \
+  engine-tests.json
+sourcebridge import-json \
+  --database evidence/sourcebridge.db \
+  --root evidence/ollama-test-inventory
+```
+
+The import verifies the fixture digest against the registered engine test and
+stores the exact rendered prompt, template version/digest, model identity,
+raw response, inventory annotation, and structured adapter statuses. These
+records remain supplemental planning evidence, not rule or target validation.
 
 Focused tests:
 
