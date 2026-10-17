@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import json
 from pathlib import Path
+import tempfile
 import unittest
 from unittest.mock import patch
 
@@ -94,6 +95,10 @@ class EngineTestInventoryTests(unittest.TestCase):
         enrichment = report["tests"][0]["ollama"]
         self.assertFalse(enrichment["authoritative"])
         self.assertEqual(enrichment["model_digest"], "sha256:model")
+        self.assertEqual(
+            enrichment["prompt_template_digest"],
+            inventory.sha256_text(inventory.PROMPT_TEMPLATE_PATH.read_text(encoding="utf-8")),
+        )
         self.assertIn('"language_features"', enrichment["raw_response"])
         self.assertEqual(
             enrichment["prompt_sha256"],
@@ -128,6 +133,44 @@ class EngineTestInventoryTests(unittest.TestCase):
                         ollama_digest="sha256:model",
                     )
         self.assertIn("437", str(context.exception))
+
+    def test_writes_importable_evidence_records_for_supplemental_inventory(self) -> None:
+        report = {
+            "pack_id": "sourcebridge-delphi",
+            "mode": "ollama-supplemental",
+            "prompt_template_version": inventory.PROMPT_TEMPLATE_VERSION,
+            "tests": [
+                {
+                    "id": 437,
+                    "fixture": "fixtures/scalars.pas",
+                    "fixture_sha256": "f" * 64,
+                    "statuses": {"source": {"status": "passed"}},
+                    "status_source": "structured_adapter",
+                    "ollama": {
+                        "model": "local",
+                        "model_digest": "sha256:model",
+                        "prompt_template_digest": "t" * 64,
+                        "prompt": "classify this fixture",
+                        "prompt_sha256": "p" * 64,
+                        "raw_response": "{\"language_features\": [\"integer\"]}",
+                        "annotation": {"language_features": ["integer"]},
+                    },
+                }
+            ],
+        }
+        with tempfile.TemporaryDirectory() as temporary:
+            paths = inventory.write_evidence_records(report, Path(temporary))
+            written = json.loads(paths[0].read_text(encoding="utf-8"))
+
+        self.assertEqual(
+            paths[0].as_posix().endswith(f"sha256:model/{'t' * 64}/437.json"),
+            True,
+        )
+        self.assertEqual(written["kind"], "ollama_test_inventory")
+        self.assertEqual(written["prompt_template_version"], inventory.PROMPT_TEMPLATE_VERSION)
+        self.assertEqual(written["prompt_template_digest"], "t" * 64)
+        self.assertEqual(written["model"], {"name": "local", "digest": "sha256:model"})
+        self.assertEqual(written["inventory"], {"language_features": ["integer"]})
 
     @patch("tools.monitor_ollama.request.urlopen")
     def test_monitor_poll_selects_operational_model_fields(self, urlopen) -> None:

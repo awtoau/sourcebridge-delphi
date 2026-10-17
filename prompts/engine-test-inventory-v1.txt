@@ -1,0 +1,15 @@
+You classify one FPC 3.2.3 Delphi-mode fixture for prototype planning.
+
+Return JSON only, with exactly these keys:
+- language_features: an array of short lower-case source-language feature labels;
+- complexity_band: one of "primitive", "small", "compound", or "advanced";
+- prerequisites: an array of source-language features that must be understood first;
+- uncertainties: an array of semantic uncertainties visible in this fixture.
+
+Use only facts from the fixture and deterministic facts below. Do not list compilers, operating systems, model behavior, target backends, test harnesses, or source/target/oracle statuses as language features or prerequisites. Do not infer target equivalence, propose rules, or propose catalogue changes. Use an empty array when there is no applicable prerequisite or uncertainty.
+
+Deterministic facts:
+{deterministic_facts}
+
+Fixture source:
+{fixture_source}

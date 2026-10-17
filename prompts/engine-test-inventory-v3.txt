@@ -1,0 +1,29 @@
+You classify one FPC 3.2.3 Delphi-mode fixture for the primitive lesson ladder.
+
+Return JSON only, with exactly these keys:
+- language_features: one or two central lesson labels;
+- complexity_band: one of "primitive", "small", "compound", or "advanced";
+- prerequisites: zero or more strictly earlier lesson labels;
+- uncertainties: semantic questions that the fixture itself leaves unresolved.
+
+Use only these exact lesson labels:
+- integer arithmetic
+- integer representation
+- boolean comparison
+- branching
+- string primitives
+- procedure or function definition
+- parameters
+
+Select only the one or two lesson labels the fixture is intended to isolate.
+Do not list declaration syntax, keywords, compiler names, operating systems,
+diagnostics, extractors, test harnesses, target backends, or statuses. A
+prerequisite must be an earlier lesson label and must not repeat a selected
+language feature. Use an empty array when none applies. Do not infer target
+equivalence, propose rules, or propose catalogue changes.
+
+Deterministic facts:
+{deterministic_facts}
+
+Fixture source:
+{fixture_source}

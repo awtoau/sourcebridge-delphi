@@ -24,6 +24,8 @@ REQUIRED_ENRICHMENT_KEYS = {
     "prerequisites",
     "uncertainties",
 }
+PROMPT_TEMPLATE_VERSION = "delphi-engine-test-inventory/v1"
+PROMPT_TEMPLATE_PATH = ROOT / "prompts" / "engine-test-inventory-v1.txt"
 
 
 class OllamaEnrichmentError(RuntimeError):
@@ -84,7 +86,13 @@ def run_adapter(
     return result, None
 
 
-def _prompt(case: dict[str, Any], fixture_text: str, digest: str, statuses: dict[str, Any]) -> str:
+def _prompt(
+    case: dict[str, Any],
+    fixture_text: str,
+    digest: str,
+    statuses: dict[str, Any],
+    template: str | None = None,
+) -> str:
     facts = {
         "test_id": case["id"],
         "name": case["name"],
@@ -92,14 +100,10 @@ def _prompt(case: dict[str, Any], fixture_text: str, digest: str, statuses: dict
         "fixture_sha256": digest,
         "adapter_statuses": statuses,
     }
-    return (
-        "Classify this Delphi fixture for prototype planning. Return JSON only, "
-        "with exactly these keys: language_features (array of strings), "
-        "complexity_band (string), prerequisites (array of strings), "
-        "uncertainties (array of strings). This is supplemental and non-authoritative; "
-        "do not infer target equivalence, rules, or catalogue changes.\n"
-        f"Deterministic facts:\n{json.dumps(facts, sort_keys=True)}\n"
-        f"Fixture source:\n{fixture_text}"
+    template = template or PROMPT_TEMPLATE_PATH.read_text(encoding="utf-8")
+    return template.format(
+        deterministic_facts=json.dumps(facts, sort_keys=True),
+        fixture_source=fixture_text,
     )
 
 
@@ -108,6 +112,7 @@ def enrich(
     model: str,
     model_digest: str,
     prompt: str,
+    prompt_template_digest: str,
     timeout: int = 60,
 ) -> dict[str, Any]:
     payload = json.dumps(
@@ -142,6 +147,8 @@ def enrich(
         "raw_response": model_response,
         "model": model,
         "model_digest": model_digest,
+        "prompt_template_digest": prompt_template_digest,
+        "prompt": prompt,
         "prompt_sha256": sha256_text(prompt),
     }
 
@@ -152,9 +159,13 @@ def build_report(
     ollama_endpoint: str | None = None,
     ollama_model: str | None = None,
     ollama_digest: str | None = None,
+    prompt_template_path: Path = PROMPT_TEMPLATE_PATH,
+    prompt_template_version: str = PROMPT_TEMPLATE_VERSION,
     timeout: int = 60,
 ) -> dict[str, Any]:
     catalogue = json.loads(catalogue_path.read_text(encoding="utf-8"))
+    prompt_template = prompt_template_path.read_text(encoding="utf-8")
+    prompt_template_digest = sha256_text(prompt_template)
     tests: list[dict[str, Any]] = []
     for case in catalogue["tests"]:
         fixture = (catalogue_path.parent / case["fixture"]).resolve()
@@ -178,10 +189,21 @@ def build_report(
         if error:
             entry["adapter_error"] = error
         if ollama_endpoint is not None:
-            prompt = _prompt(case, fixture_bytes.decode("utf-8"), digest, statuses)
+            prompt = _prompt(
+                case,
+                fixture_bytes.decode("utf-8"),
+                digest,
+                statuses,
+                prompt_template,
+            )
             try:
                 entry["ollama"] = enrich(
-                    ollama_endpoint, ollama_model or "", ollama_digest or "", prompt, timeout
+                    ollama_endpoint,
+                    ollama_model or "",
+                    ollama_digest or "",
+                    prompt,
+                    prompt_template_digest,
+                    timeout,
                 )
             except (OSError, ValueError, json.JSONDecodeError) as error:
                 raise OllamaEnrichmentError(
@@ -194,8 +216,40 @@ def build_report(
         "catalogue": str(catalogue_path),
         "mode": "ollama-supplemental" if ollama_endpoint else "deterministic-only",
         "ollama_authority": "supplemental; non-authoritative; no rules, catalogue changes, or target-equivalence claims",
+        "prompt_template_version": prompt_template_version,
+        "prompt_template_digest": prompt_template_digest,
         "tests": tests,
     }
+
+
+def write_evidence_records(report: dict[str, Any], directory: Path) -> list[Path]:
+    if report["mode"] != "ollama-supplemental":
+        raise ValueError("Ollama evidence records require --ollama-endpoint, --ollama-model, and --ollama-digest")
+    written: list[Path] = []
+    for test in report["tests"]:
+        ollama = test["ollama"]
+        model_digest = ollama["model_digest"]
+        record = {
+            "kind": "ollama_test_inventory",
+            "pack_id": report["pack_id"],
+            "test_id": test["id"],
+            "fixture_path": test["fixture"],
+            "fixture_sha256": test["fixture_sha256"],
+            "model": {"name": ollama["model"], "digest": model_digest},
+            "prompt_template_version": report["prompt_template_version"],
+            "prompt_template_digest": ollama["prompt_template_digest"],
+            "prompt": {"text": ollama["prompt"]},
+            "prompt_sha256": ollama["prompt_sha256"],
+            "raw_response": ollama["raw_response"],
+            "inventory": ollama["annotation"],
+            "statuses": test["statuses"],
+            "status_source": test["status_source"],
+        }
+        path = directory / model_digest / ollama["prompt_template_digest"] / f"{test['id']}.json"
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(record, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        written.append(path)
+    return written
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -205,16 +259,31 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--ollama-endpoint")
     parser.add_argument("--ollama-model")
     parser.add_argument("--ollama-digest")
+    parser.add_argument("--prompt-template", type=Path, default=PROMPT_TEMPLATE_PATH)
+    parser.add_argument(
+        "--prompt-template-version",
+        default=PROMPT_TEMPLATE_VERSION,
+        help="version label for the immutable prompt template used by this run",
+    )
+    parser.add_argument(
+        "--evidence-directory",
+        type=Path,
+        help="write one importable Sourcebridge Ollama-inventory record per test",
+    )
     parser.add_argument("--timeout", type=int, default=60)
     args = parser.parse_args(argv)
     if bool(args.ollama_endpoint) != bool(args.ollama_model and args.ollama_digest):
         parser.error("--ollama-endpoint, --ollama-model, and --ollama-digest must be supplied together")
+    if args.evidence_directory and not args.ollama_endpoint:
+        parser.error("--evidence-directory requires Ollama enrichment")
     try:
         report = build_report(
             args.catalogue.resolve(),
             ollama_endpoint=args.ollama_endpoint,
             ollama_model=args.ollama_model,
             ollama_digest=args.ollama_digest,
+            prompt_template_path=args.prompt_template,
+            prompt_template_version=args.prompt_template_version,
             timeout=args.timeout,
         )
     except OllamaEnrichmentError as error:
@@ -225,6 +294,8 @@ def main(argv: list[str] | None = None) -> int:
         args.output.write_text(output, encoding="utf-8")
     else:
         print(output, end="")
+    if args.evidence_directory:
+        write_evidence_records(report, args.evidence_directory)
     return 0
 
 
