@@ -22,6 +22,21 @@ class ExtractTests(unittest.TestCase):
         self.assertEqual(result["facts"][1]["return_type"], "cardinal")
         self.assertEqual(result["facts"][0]["operands"], ["Left", "Right"])
 
+    def test_extracts_scalar_layout_program_fixture(self) -> None:
+        result = extract(Path("fixtures/scalar_layout.pas"))
+        fact = result["facts"][0]
+        self.assertIsNone(result["unit"])
+        self.assertEqual(result["program"], "ScalarLayout")
+        self.assertEqual(fact["kind"], "scalar_layout_program")
+        self.assertEqual(
+            [(item["type"], item["expression"]) for item in fact["size_of"]],
+            [("integer", "SizeOf(Integer)"), ("cardinal", "SizeOf(Cardinal)")],
+        )
+        self.assertEqual(
+            [(item["type"], item["left"], item["right"]) for item in fact["typed_additions"]],
+            [("integer", 1, 2), ("cardinal", 1, 2)],
+        )
+
     def test_rejects_unsupported_body(self) -> None:
         path = Path(self._testMethodName + ".pas")
         self.addCleanup(path.unlink, missing_ok=True)

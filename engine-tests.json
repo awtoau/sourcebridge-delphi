@@ -44,7 +44,7 @@
           "status": "passed"
         },
         "extraction": {
-          "status": "failed"
+          "status": "passed"
         },
         "target": {
           "status": "blocked"

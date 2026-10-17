@@ -11,10 +11,13 @@ The first supported fixture grammar extracts:
 - a `unit` name;
 - `function` signatures using `Integer` or `Cardinal` parameters and returns;
 - a function body consisting of `Result := Left + Right`.
+- the constrained `ScalarLayout` `program` fixture with literal
+  `SizeOf(Integer/Cardinal)` and typed `1 + 2` output expressions.
 
-Unsupported syntax is a reported extraction error. The intentionally small
-scope gives the Delphi Stage-1 pilot an executable fact boundary before
-compiler integration and broader language support.
+The program extraction records expressions and source spans, not runtime byte
+widths or output values. Unsupported syntax is a reported extraction error.
+The intentionally small scope gives the Delphi Stage-1 pilot an executable
+fact boundary before compiler integration and broader language support.
 
 ## Compiler validation status
 
@@ -170,10 +173,11 @@ It covers a Delphi-mode `Boolean` function using an integer comparison and
 `if`/`else` result assignment. The extractor reports only this fixture fact;
 it does not claim general Pascal control-flow support.
 
-The integer-layout, boolean-expression, and string-length cases intentionally
-report extraction `failed` because the current extractor does not support
-those primitives. Their source status is still independently reported as
-`passed`; target remains `blocked` and oracle remains `skipped`.
+The Boolean-expression and string-length cases intentionally report extraction
+`failed` because the current extractor does not support those primitives.
+The integer-layout program now reports extraction `passed` for its constrained
+source expressions only; target remains `blocked` and oracle remains `skipped`
+for every basics case.
 
 ## Prototype engine-test inventory
 
