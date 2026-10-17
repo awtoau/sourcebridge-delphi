@@ -134,7 +134,9 @@ integration:
 - `sourcebridge-delphi.pack.json` declares the frontend and its engine-test
   catalogue;
 - `engine-tests.json` owns stable test ID `437` (outside the known C# IDs
-  `434`–`436`);
+  `434`–`436`) and the next basics candidate `438`;
+- `rule-curriculum.json` is the version-controlled `basics` selector
+  curriculum, ordered from rule/test `437` to candidate rule/test `438`;
 - `tools/run_sourcebridge_engine_test.py` is a `json-command` adapter. It
   checks the pinned FPC variant, compiles the Stage-1 fixture in Delphi mode,
   and invokes the existing extractor.
@@ -154,3 +156,15 @@ target `blocked`, and oracle `skipped`. This is a frontend smoke test only:
 the pack does not invoke a target backend, does not compare generated target
 behavior, and does not claim a general Delphi converter, Embarcadero Delphi
 equivalence, or target equivalence.
+
+The focused boolean candidate can be run with the same adapter:
+
+```text
+sourcebridge dev sourcebridge-delphi test 438 \
+  --database evidence/sourcebridge.db \
+  --pack-manifest sourcebridge-delphi.pack.json
+```
+
+It covers a Delphi-mode `Boolean` function using an integer comparison and
+`if`/`else` result assignment. The extractor reports only this fixture fact;
+it does not claim general Pascal control-flow support.

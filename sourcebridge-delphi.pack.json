@@ -11,6 +11,7 @@
   },
   "entrypoints": {
     "extract": "sourcebridge-delphi-extract",
-    "engine_tests": "engine-tests.json"
+    "engine_tests": "engine-tests.json",
+    "rule_curriculum": "rule-curriculum.json"
   }
 }

@@ -34,6 +34,25 @@
           "status": "skipped"
         }
       }
+    },
+    {
+      "id": 438,
+      "name": "basics-fpc-boolean-comparison-branch",
+      "fixture": "fixtures/booleancomparison.pas",
+      "expected": {
+        "source": {
+          "status": "passed"
+        },
+        "extraction": {
+          "status": "passed"
+        },
+        "target": {
+          "status": "blocked"
+        },
+        "oracle": {
+          "status": "skipped"
+        }
+      }
     }
   ]
 }

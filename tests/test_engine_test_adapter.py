@@ -26,5 +26,24 @@ class EngineTestAdapterTests(unittest.TestCase):
     def test_catalogue_uses_a_non_csharp_stable_id(self) -> None:
         catalogue = json.loads((ROOT / "engine-tests.json").read_text(encoding="utf-8"))
         ids = {case["id"] for case in catalogue["tests"]}
-        self.assertEqual(ids, {437})
+        self.assertEqual(ids, {437, 438})
         self.assertTrue(ids.isdisjoint({434, 435, 436}))
+
+    def test_boolean_case_has_honest_expected_statuses(self) -> None:
+        catalogue = json.loads((ROOT / "engine-tests.json").read_text(encoding="utf-8"))
+        case = next(item for item in catalogue["tests"] if item["id"] == 438)
+        self.assertEqual(case["fixture"], "fixtures/booleancomparison.pas")
+        self.assertEqual(case["expected"]["source"]["status"], "passed")
+        self.assertEqual(case["expected"]["extraction"]["status"], "passed")
+        self.assertEqual(case["expected"]["target"]["status"], "blocked")
+        self.assertEqual(case["expected"]["oracle"]["status"], "skipped")
+
+    def test_basics_curriculum_is_ordered_and_names_engine_tests(self) -> None:
+        curriculum = json.loads(
+            (ROOT / "rule-curriculum.json").read_text(encoding="utf-8")
+        )
+        self.assertEqual(curriculum["selector"], "basics")
+        self.assertEqual(
+            [(entry["order"], entry["test_id"]) for entry in curriculum["entries"]],
+            [(1, 437), (2, 438)],
+        )
