@@ -18,7 +18,8 @@ class EngineTestInventoryTests(unittest.TestCase):
         with patch.object(inventory, "run_adapter", return_value=(None, "unavailable")):
             report = inventory.build_report(ROOT / "engine-tests.json")
         self.assertEqual(report["mode"], "deterministic-only")
-        self.assertEqual(len(report["tests"]), 2)
+        catalogue = json.loads((ROOT / "engine-tests.json").read_text())
+        self.assertEqual(len(report["tests"]), len(catalogue["tests"]))
         first = report["tests"][0]
         expected = hashlib.sha256(
             (ROOT / "fixtures" / "scalars.pas").read_bytes()
@@ -86,7 +87,10 @@ class EngineTestInventoryTests(unittest.TestCase):
                 ollama_model="delphi-planner",
                 ollama_digest="sha256:model",
             )
-        self.assertEqual(urlopen.call_count, 2)
+        self.assertEqual(
+            urlopen.call_count,
+            len(json.loads((ROOT / "engine-tests.json").read_text())["tests"]),
+        )
         enrichment = report["tests"][0]["ollama"]
         self.assertFalse(enrichment["authoritative"])
         self.assertEqual(enrichment["model_digest"], "sha256:model")
