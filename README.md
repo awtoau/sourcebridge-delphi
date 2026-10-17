@@ -125,3 +125,32 @@ python3 tools/extract_fpc_fixture.py
 ```
 
 The extractor writes normalized JSON facts to standard output.
+
+## Sourcebridge engine-test smoke path
+
+This repository also contains the minimum Sourcebridge frontend-pack
+integration:
+
+- `sourcebridge-delphi.pack.json` declares the frontend and its engine-test
+  catalogue;
+- `engine-tests.json` owns stable test ID `437` (outside the known C# IDs
+  `434`–`436`);
+- `tools/run_sourcebridge_engine_test.py` is a `json-command` adapter. It
+  checks the pinned FPC variant, compiles the Stage-1 fixture in Delphi mode,
+  and invokes the existing extractor.
+
+The adapter honors `SOURCEBRIDGE_FPC`, so the `sourcebridge-fpc` wrapper built
+by `bootstrap-runtime` can be reused instead of the host `fpc`. With the
+Sourcebridge core CLI available, run the one focused case as:
+
+```text
+sourcebridge dev sourcebridge-delphi test 437 \
+  --database evidence/sourcebridge.db \
+  --pack-manifest sourcebridge-delphi.pack.json
+```
+
+The expected structured result is source `passed`, extraction `passed`,
+target `blocked`, and oracle `skipped`. This is a frontend smoke test only:
+the pack does not invoke a target backend, does not compare generated target
+behavior, and does not claim a general Delphi converter, Embarcadero Delphi
+equivalence, or target equivalence.
