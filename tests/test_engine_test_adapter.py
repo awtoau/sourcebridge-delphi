@@ -38,10 +38,11 @@ class EngineTestAdapterTests(unittest.TestCase):
         self.assertEqual(case["expected"]["target"]["status"], "blocked")
         self.assertEqual(case["expected"]["oracle"]["status"], "skipped")
 
-    def test_unsupported_basics_primitives_are_blocked_at_extraction(self) -> None:
+    def test_remaining_unsupported_basics_primitives_are_blocked_at_extraction(self) -> None:
         catalogue = json.loads((ROOT / "engine-tests.json").read_text(encoding="utf-8"))
         cases = {item["id"]: item for item in catalogue["tests"]}
-        for test_id in (439, 440, 441):
+        self.assertEqual(cases[439]["expected"]["extraction"]["status"], "passed")
+        for test_id in (440, 441):
             self.assertEqual(cases[test_id]["expected"]["source"]["status"], "passed")
             self.assertEqual(cases[test_id]["expected"]["extraction"]["status"], "failed")
             self.assertEqual(cases[test_id]["expected"]["target"]["status"], "blocked")

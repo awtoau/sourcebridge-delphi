@@ -11,6 +11,7 @@ from typing import Any
 
 
 _UNIT = re.compile(r"^unit\s+(?P<name>[A-Za-z_][A-Za-z0-9_]*)\s*;$", re.IGNORECASE)
+_PROGRAM = re.compile(r"^program\s+(?P<name>[A-Za-z_][A-Za-z0-9_]*)\s*;$", re.IGNORECASE)
 _SIGNATURE = re.compile(
     r"^function\s+(?P<name>[A-Za-z_][A-Za-z0-9_]*)"
     r"\((?P<parameters>[^)]*)\)\s*:\s*(?P<return>Integer|Cardinal|Boolean)\s*;$",
@@ -33,6 +34,16 @@ _COMPARISON = re.compile(
 )
 _BOOLEAN_ASSIGNMENT = re.compile(
     r"^Result\s*:=\s*(?P<value>True|False)\s*;?$", re.IGNORECASE
+)
+_SIZE_OF_OUTPUT = re.compile(
+    r"^Writeln\('(?P<label>Integer|Cardinal)=',\s*"
+    r"SizeOf\((?P<type>Integer|Cardinal)\)\);$",
+    re.IGNORECASE,
+)
+_TYPED_ADDITION_OUTPUT = re.compile(
+    r"^Writeln\('(?P<label>AddSigned|AddUnsigned)=',\s*"
+    r"(?P<type>Integer|Cardinal)\(1\)\s*\+\s*(?P=type)\(2\)\);$",
+    re.IGNORECASE,
 )
 
 
@@ -74,8 +85,11 @@ def extract(path: Path, variant_path: Path | None = None) -> dict[str, Any]:
     except OSError as error:
         raise ExtractionError(f"{path}: cannot read source: {error}") from error
     unit_name: str | None = None
+    program_name: str | None = None
     declarations: dict[str, tuple[list[dict[str, str]], str, int]] = {}
     facts: list[dict[str, Any]] = []
+    layout_sizes: list[dict[str, Any]] = []
+    layout_additions: list[dict[str, Any]] = []
     index = 0
     while index < len(lines):
         line_number = index + 1
@@ -85,10 +99,52 @@ def extract(path: Path, variant_path: Path | None = None) -> dict[str, Any]:
             continue
         unit = _UNIT.fullmatch(text)
         if unit is not None:
-            if unit_name is not None:
-                raise ExtractionError(f"line {line_number}: duplicate unit declaration")
+            if unit_name is not None or program_name is not None:
+                raise ExtractionError(f"line {line_number}: duplicate source declaration")
             unit_name = unit["name"]
             continue
+        program = _PROGRAM.fullmatch(text)
+        if program is not None:
+            if unit_name is not None or program_name is not None:
+                raise ExtractionError(f"line {line_number}: duplicate source declaration")
+            program_name = program["name"]
+            continue
+        if program_name is not None:
+            if size_output := _SIZE_OF_OUTPUT.fullmatch(text):
+                label = size_output["label"].casefold()
+                value_type = size_output["type"].casefold()
+                if label != value_type:
+                    raise ExtractionError(
+                        f"line {line_number}: SizeOf label and type must match"
+                    )
+                layout_sizes.append(
+                    {
+                        "type": value_type,
+                        "expression": f"SizeOf({size_output['type']})",
+                        "span": _source_span(line_number),
+                    }
+                )
+                continue
+            if addition_output := _TYPED_ADDITION_OUTPUT.fullmatch(text):
+                label = addition_output["label"].casefold()
+                value_type = addition_output["type"].casefold()
+                expected_label = {
+                    "integer": "addsigned",
+                    "cardinal": "addunsigned",
+                }[value_type]
+                if label != expected_label:
+                    raise ExtractionError(
+                        f"line {line_number}: typed addition label and type must match"
+                    )
+                layout_additions.append(
+                    {
+                        "type": value_type,
+                        "left": 1,
+                        "right": 2,
+                        "span": _source_span(line_number),
+                    }
+                )
+                continue
         signature = _SIGNATURE.fullmatch(text)
         if signature is None:
             continue
@@ -169,8 +225,21 @@ def extract(path: Path, variant_path: Path | None = None) -> dict[str, Any]:
             index += 1
         else:
             declarations[name.casefold()] = (parameters, return_type, line_number)
-    if unit_name is None:
+    if unit_name is None and program_name is None:
         raise ExtractionError(f"{path}: missing unit declaration")
+    if program_name is not None:
+        if {item["type"] for item in layout_sizes} != {"integer", "cardinal"}:
+            raise ExtractionError(f"{path}: missing supported SizeOf layout statements")
+        if {item["type"] for item in layout_additions} != {"integer", "cardinal"}:
+            raise ExtractionError(f"{path}: missing supported typed addition statements")
+        facts.append(
+            {
+                "kind": "scalar_layout_program",
+                "name": program_name,
+                "size_of": layout_sizes,
+                "typed_additions": layout_additions,
+            }
+        )
     if not facts:
         raise ExtractionError(f"{path}: no supported function implementations found")
     result = {
@@ -184,6 +253,8 @@ def extract(path: Path, variant_path: Path | None = None) -> dict[str, Any]:
             "no compiler, dialect, or runtime validation",
         ],
     }
+    if program_name is not None:
+        result["program"] = program_name
     variant = _variant(variant_path)
     if variant is not None:
         result["variant"] = variant
