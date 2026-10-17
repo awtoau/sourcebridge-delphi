@@ -1,4 +1,4 @@
-"""Extract Stage-1 Delphi scalar-function facts from a constrained fixture grammar."""
+"""Extract Delphi language-basics facts from a constrained fixture grammar."""
 
 from __future__ import annotations
 
@@ -13,7 +13,7 @@ from typing import Any
 _UNIT = re.compile(r"^unit\s+(?P<name>[A-Za-z_][A-Za-z0-9_]*)\s*;$", re.IGNORECASE)
 _SIGNATURE = re.compile(
     r"^function\s+(?P<name>[A-Za-z_][A-Za-z0-9_]*)"
-    r"\((?P<parameters>[^)]*)\)\s*:\s*(?P<return>Integer|Cardinal)\s*;$",
+    r"\((?P<parameters>[^)]*)\)\s*:\s*(?P<return>Integer|Cardinal|Boolean)\s*;$",
     re.IGNORECASE,
 )
 _PARAMETER = re.compile(
@@ -24,6 +24,15 @@ _ASSIGNMENT = re.compile(
     r"^Result\s*:=\s*(?P<left>[A-Za-z_][A-Za-z0-9_]*)\s*\+\s*"
     r"(?P<right>[A-Za-z_][A-Za-z0-9_]*)\s*;$",
     re.IGNORECASE,
+)
+_COMPARISON = re.compile(
+    r"^if\s+(?P<left>[A-Za-z_][A-Za-z0-9_]*)\s*"
+    r"(?P<operator>=|<>|<|>|<=|>=)\s*"
+    r"(?P<right>[A-Za-z_][A-Za-z0-9_]*)\s+then$",
+    re.IGNORECASE,
+)
+_BOOLEAN_ASSIGNMENT = re.compile(
+    r"^Result\s*:=\s*(?P<value>True|False)\s*;?$", re.IGNORECASE
 )
 
 
@@ -90,31 +99,74 @@ def extract(path: Path, variant_path: Path | None = None) -> dict[str, Any]:
             index += 1
             if index >= len(lines):
                 raise ExtractionError(f"line {line_number}: function body is incomplete")
-            assignment_line = index + 1
-            assignment = _ASSIGNMENT.fullmatch(lines[index].strip())
-            index += 1
-            if assignment is None:
-                raise ExtractionError(
-                    f"line {assignment_line}: only `Result := Left + Right` is supported")
-            if index >= len(lines) or lines[index].strip().lower() != "end;":
-                raise ExtractionError(f"line {assignment_line}: function must end with `end;`")
-            index += 1
             parameter_names = {parameter["name"].casefold() for parameter in parameters}
-            operands = [assignment["left"], assignment["right"]]
-            if any(operand.casefold() not in parameter_names for operand in operands):
+            operation_line = index + 1
+            operation = lines[index].strip()
+            if (assignment := _ASSIGNMENT.fullmatch(operation)) is not None:
+                index += 1
+                operands = [assignment["left"], assignment["right"]]
+                if any(operand.casefold() not in parameter_names for operand in operands):
+                    raise ExtractionError(
+                        f"line {operation_line}: addition operands must be declared parameters")
+                facts.append(
+                    {
+                        "kind": "scalar_addition_function",
+                        "name": name,
+                        "parameters": parameters,
+                        "return_type": return_type,
+                        "operands": operands,
+                        "signature_span": _source_span(line_number),
+                        "operation_span": _source_span(operation_line),
+                    }
+                )
+            elif (comparison := _COMPARISON.fullmatch(operation)) is not None:
+                if return_type != "boolean":
+                    raise ExtractionError(
+                        f"line {line_number}: comparison branch must return Boolean")
+                operands = [comparison["left"], comparison["right"]]
+                if any(operand.casefold() not in parameter_names for operand in operands):
+                    raise ExtractionError(
+                        f"line {operation_line}: comparison operands must be declared parameters")
+                index += 1
+                if index >= len(lines):
+                    raise ExtractionError(f"line {operation_line}: branch body is incomplete")
+                true_line = index + 1
+                true_assignment = _BOOLEAN_ASSIGNMENT.fullmatch(lines[index].strip())
+                index += 1
+                if true_assignment is None or true_assignment["value"].casefold() != "true":
+                    raise ExtractionError(
+                        f"line {true_line}: true branch must assign `Result := True`")
+                if index >= len(lines) or lines[index].strip().lower() != "else":
+                    raise ExtractionError(f"line {true_line}: comparison branch must have `else`")
+                index += 1
+                if index >= len(lines):
+                    raise ExtractionError(f"line {true_line}: false branch is incomplete")
+                false_line = index + 1
+                false_assignment = _BOOLEAN_ASSIGNMENT.fullmatch(lines[index].strip())
+                index += 1
+                if false_assignment is None or false_assignment["value"].casefold() != "false":
+                    raise ExtractionError(
+                        f"line {false_line}: false branch must assign `Result := False`")
+                facts.append(
+                    {
+                        "kind": "boolean_comparison_branch_function",
+                        "name": name,
+                        "parameters": parameters,
+                        "return_type": return_type,
+                        "operands": operands,
+                        "operator": comparison["operator"],
+                        "true_value": True,
+                        "false_value": False,
+                        "signature_span": _source_span(line_number),
+                        "operation_span": _source_span(operation_line),
+                    }
+                )
+            else:
                 raise ExtractionError(
-                    f"line {assignment_line}: addition operands must be declared parameters")
-            facts.append(
-                {
-                    "kind": "scalar_addition_function",
-                    "name": name,
-                    "parameters": parameters,
-                    "return_type": return_type,
-                    "operands": operands,
-                    "signature_span": _source_span(line_number),
-                    "operation_span": _source_span(assignment_line),
-                }
-            )
+                    f"line {operation_line}: only `Result := Left + Right` or a Boolean comparison branch is supported")
+            if index >= len(lines) or lines[index].strip().lower() != "end;":
+                raise ExtractionError(f"line {operation_line}: function must end with `end;`")
+            index += 1
         else:
             declarations[name.casefold()] = (parameters, return_type, line_number)
     if unit_name is None:

@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "selector": "basics",
+  "entries": [
+    {
+      "order": 1,
+      "rule": "delphi.basics.scalar-addition",
+      "test_id": 437
+    },
+    {
+      "order": 2,
+      "rule": "delphi.basics.boolean-comparison-branch",
+      "test_id": 438
+    }
+  ]
+}

@@ -7,6 +7,13 @@ from sourcebridge_delphi.extract import ExtractionError, extract
 
 
 class ExtractTests(unittest.TestCase):
+    def test_extracts_boolean_comparison_branch_fixture(self) -> None:
+        result = extract(Path("fixtures/booleancomparison.pas"))
+        self.assertEqual(result["unit"], "BooleanComparison")
+        self.assertEqual(result["facts"][0]["kind"], "boolean_comparison_branch_function")
+        self.assertEqual(result["facts"][0]["operator"], ">")
+        self.assertEqual(result["facts"][0]["operands"], ["Left", "Right"])
+
     def test_extracts_scalar_addition_fixture(self) -> None:
         result = extract(Path("fixtures/scalars.pas"))
         self.assertEqual(result["unit"], "Scalars")
