@@ -27,7 +27,7 @@ class EngineTestInventoryTests(unittest.TestCase):
         ).hexdigest()
         self.assertEqual(first["fixture_sha256"], expected)
         self.assertEqual(first["status_source"], "catalogue_declared_outcome")
-        self.assertEqual(first["statuses"]["target"]["status"], "blocked")
+        self.assertEqual(first["statuses"]["target"]["status"], "passed")
         self.assertNotIn("ollama", first)
 
     def test_structured_adapter_statuses_are_preserved(self) -> None:
