@@ -268,3 +268,21 @@ Focused tests:
 ```text
 python3 -m unittest discover -s tests -p 'test_inventory_engine_tests.py'
 ```
+
+### Local FPC source-candidate queue
+
+`tools/run_fpc_source_candidates.py` persistently queues attributed source
+locations from the pinned `tmp/fpc` checkout. It prefers `tests/` and `rtl/`,
+sends one local Ollama request per candidate, and cannot emit rules or claim
+target validation. Supply the observed, exact digest for the local
+`qwen3-coder:30b` model; it is intentionally never guessed:
+
+```text
+python3 tools/run_fpc_source_candidates.py \
+  --model-digest sha256:<exact-qwen3-coder-30b-digest> \
+  --limit 1
+```
+
+The smoke default is one candidate and the maximum is 100. Durable queue state
+and content-addressed request/response transcripts are written below
+`evidence/` by default. The runner accepts only HTTP loopback Ollama endpoints.
