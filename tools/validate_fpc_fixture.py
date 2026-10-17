@@ -10,6 +10,7 @@ import shutil
 import subprocess
 import sys
 
+from fpc_runtime import rtl_arguments
 
 def _run(arguments: list[str]) -> str:
     result = subprocess.run(arguments, check=False, capture_output=True, text=True)
@@ -36,7 +37,14 @@ def validate(variant_path: Path, fixture: Path, output_directory: Path) -> None:
         raise ValueError(f"FPC variant mismatch: expected {expected}, got {actual}")
     output_directory.mkdir(parents=True, exist_ok=True)
     result = subprocess.run(
-        ["fpc", "-Mdelphi", f"-FU{output_directory}", f"-FE{output_directory}", str(fixture)],
+        [
+            "fpc",
+            "-Mdelphi",
+            *rtl_arguments(),
+            f"-FU{output_directory}",
+            f"-FE{output_directory}",
+            str(fixture),
+        ],
         check=False,
         capture_output=True,
         text=True,

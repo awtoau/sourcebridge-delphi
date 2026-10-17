@@ -8,6 +8,7 @@ import subprocess
 from pathlib import Path
 import sys
 
+from fpc_runtime import rtl_arguments
 
 EXPECTED_OUTPUT = [
     "Integer=4",
@@ -20,7 +21,7 @@ EXPECTED_OUTPUT = [
 def validate(fixture: Path, output_directory: Path) -> None:
     output_directory.mkdir(parents=True, exist_ok=True)
     result = subprocess.run(
-        ["fpc", "-Mdelphi", f"-FE{output_directory}", str(fixture)],
+        ["fpc", "-Mdelphi", *rtl_arguments(), f"-FE{output_directory}", str(fixture)],
         check=False,
         capture_output=True,
         text=True,
