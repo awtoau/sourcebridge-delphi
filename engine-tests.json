@@ -28,7 +28,7 @@
           "status": "passed"
         },
         "target": {
-          "status": "blocked"
+          "status": "passed"
         },
         "oracle": {
           "status": "skipped"
@@ -85,7 +85,7 @@
           "status": "passed"
         },
         "target": {
-          "status": "blocked"
+          "status": "passed"
         },
         "oracle": {
           "status": "skipped"

@@ -9,7 +9,10 @@ from pathlib import Path
 import re
 import sys
 
-from record_fpc_source_corpus import source_files
+try:  # Supports both `python tools/...` and package-style test imports.
+    from tools.record_fpc_source_corpus import source_files
+except ModuleNotFoundError:
+    from record_fpc_source_corpus import source_files
 
 
 SUPPORTED_FUNCTION = re.compile(

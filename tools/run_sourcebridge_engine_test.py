@@ -4,9 +4,11 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 from pathlib import Path
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -20,6 +22,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from record_fpc_compiler_test_run import compiler_identity
 from sourcebridge_delphi.extract import ExtractionError, extract
+from sourcebridge_delphi.emit_rust import RustEmissionError, emit
 
 
 def _status(status: str, **details: Any) -> dict[str, Any]:
@@ -115,6 +118,30 @@ def _installed_rtl_path(identity: dict[str, str] | None) -> Path | None:
     return None
 
 
+def _compile_rust(facts: dict[str, Any], output_directory: Path) -> dict[str, Any]:
+    rustc = shutil.which("rustc")
+    if rustc is None:
+        return _status("blocked", reason="Rust compiler (`rustc`) is unavailable")
+    try:
+        artifact = emit(facts)
+    except RustEmissionError as error:
+        return _status("blocked", reason=str(error))
+    source = output_directory / "generated.rs"
+    library = output_directory / "generated.rlib"
+    source.write_text(artifact, encoding="utf-8")
+    command = [rustc, "--edition", "2021", "--crate-type", "lib", str(source), "-o", str(library)]
+    result = subprocess.run(command, check=False, capture_output=True, text=True)
+    details = {
+        "compiler": rustc,
+        "command": command,
+        "artifact_path": source.name,
+        "artifact_digest": hashlib.sha256(artifact.encode("utf-8")).hexdigest(),
+    }
+    if result.returncode:
+        return _status("failed", diagnostic=(result.stdout + result.stderr).strip()[-4_000:], **details)
+    return _status("passed", **details)
+
+
 def run_test(fixture: Path, variant_path: Path, fpc: str) -> dict[str, Any]:
     variant = _variant(variant_path)
     source: dict[str, Any]
@@ -132,17 +159,19 @@ def run_test(fixture: Path, variant_path: Path, fpc: str) -> dict[str, Any]:
                 functions=[fact["name"] for fact in facts["facts"]],
                 variant=variant["compiler"],
             )
+        target = (
+            _compile_rust(facts, Path(output))
+            if extraction["status"] == "passed"
+            else _status("blocked", reason="source extraction did not produce target-emittable facts")
+        )
     return {
         "schema_version": 1,
         "source": source,
         "extraction": extraction,
-        "target": _status(
-            "blocked",
-            reason="this frontend smoke test does not invoke a target backend",
-        ),
+        "target": target,
         "oracle": _status(
             "skipped",
-            reason="no target artifact was produced for an equivalence oracle",
+            reason="the fixture is a source unit without an executable source/target harness",
         ),
     }
 
