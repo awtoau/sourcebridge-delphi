@@ -91,6 +91,16 @@
       "order": 18,
       "rule": "delphi.basics.scalar-modulo",
       "test_id": 454
+    },
+    {
+      "order": 19,
+      "rule": "delphi.basics.scalar-bitwise-and",
+      "test_id": 455
+    },
+    {
+      "order": 20,
+      "rule": "delphi.basics.scalar-bitwise-and",
+      "test_id": 456
     }
   ]
 }

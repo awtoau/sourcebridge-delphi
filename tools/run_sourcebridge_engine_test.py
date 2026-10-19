@@ -445,6 +445,36 @@ def _scalar_modulo_harness(
     return "scalar-modulo", lines
 
 
+def _scalar_bitwise_and_harness(
+    facts: dict[str, Any],
+) -> tuple[str, list[str]] | dict[str, Any]:
+    """Harness exercising integer bitwise AND, including a negative (all-ones) case."""
+
+    names = {
+        str(fact.get("name", "")).casefold()
+        for fact in facts.get("facts", [])
+        if fact.get("kind") == "scalar_bitwise_and_function"
+    }
+    cases = [
+        ("bitandsigned", 12, 10),
+        ("bitandsigned", -1, 255),
+        ("bitandunsigned", 240, 15),
+    ]
+    required = {name for name, _, _ in cases}
+    if not required.issubset(names):
+        return _status(
+            "blocked",
+            reason="bitwise-and oracle requires BitAndSigned and BitAndUnsigned facts",
+        )
+    lines = ["mod generated;", "", "fn main() {"]
+    for name, left, right in cases:
+        lines.append(
+            f'    println!("{name}({left},{right})={{}}", generated::{name}({left}, {right}));'
+        )
+    lines.append("}")
+    return "scalar-bitwise-and", lines
+
+
 def _oracle_harness(facts: dict[str, Any]) -> tuple[str, list[str]] | dict[str, Any] | None:
     """Select the executable oracle harness for the extracted fact kinds, if any."""
 
@@ -459,6 +489,8 @@ def _oracle_harness(facts: dict[str, Any]) -> tuple[str, list[str]] | dict[str, 
         return _scalar_subtraction_harness(facts)
     if "scalar_modulo_function" in kinds:
         return _scalar_modulo_harness(facts)
+    if "scalar_bitwise_and_function" in kinds:
+        return _scalar_bitwise_and_harness(facts)
     if "boolean_comparison_branch_function" in kinds:
         return _boolean_comparison_branch_harness(facts)
     if "boolean_comparison_expression_function" in kinds:

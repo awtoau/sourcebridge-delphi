@@ -357,6 +357,44 @@
           "status": "passed"
         }
       }
+    },
+    {
+      "id": 455,
+      "name": "basics-fpc-scalar-bitwise-and",
+      "fixture": "fixtures/scalarbitwiseand.pas",
+      "expected": {
+        "source": {
+          "status": "passed"
+        },
+        "extraction": {
+          "status": "passed"
+        },
+        "target": {
+          "status": "passed"
+        },
+        "oracle": {
+          "status": "skipped"
+        }
+      }
+    },
+    {
+      "id": 456,
+      "name": "basics-fpc-scalar-bitwise-and-oracle",
+      "fixture": "fixtures/scalarbitwiseand_oracle.pas",
+      "expected": {
+        "source": {
+          "status": "passed"
+        },
+        "extraction": {
+          "status": "passed"
+        },
+        "target": {
+          "status": "passed"
+        },
+        "oracle": {
+          "status": "passed"
+        }
+      }
     }
   ]
 }

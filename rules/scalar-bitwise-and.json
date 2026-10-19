@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "rule_key": "delphi.basics.scalar-bitwise-and",
+  "title": "Integer/Cardinal bitwise AND",
+  "applies_to": { "source_fact_kind": "scalar_bitwise_and_function" },
+  "output_shape": {
+    "target": "rust",
+    "type_map": { "integer": "i32", "cardinal": "u32" },
+    "body": "{op0} & {op1}"
+  },
+  "validation_tier": "executable-oracle",
+  "rationale": "Model-drafted by local qwen3-coder:30b from measured FPC evidence: `and` on integer operands is a bitwise AND over the two's-complement bits (12 and 10 = 8; -1 and 255 = 255), matching Rust's integer `&`; gate-validated and oracle-proven on signed (incl. negative) and unsigned cases."
+}

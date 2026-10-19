@@ -29,7 +29,7 @@ class EngineTestAdapterTests(unittest.TestCase):
         self.assertEqual(
             ids,
             {437, 438, 439, 440, 441, 442, 443, 444, 445, 446, 447, 448, 449, 450,
-             451, 452, 453, 454},
+             451, 452, 453, 454, 455, 456},
         )
         self.assertTrue(ids.isdisjoint({434, 435, 436}))
 
@@ -112,8 +112,24 @@ class EngineTestAdapterTests(unittest.TestCase):
             [(entry["order"], entry["test_id"]) for entry in curriculum["entries"]],
             [(1, 437), (2, 439), (3, 440), (4, 438), (5, 441), (6, 442), (7, 443),
              (8, 444), (9, 445), (10, 446), (11, 447), (12, 448), (13, 449), (14, 450),
-             (15, 451), (16, 452), (17, 453), (18, 454)],
+             (15, 451), (16, 452), (17, 453), (18, 454), (19, 455), (20, 456)],
         )
+
+    def test_scalar_bitwise_and_oracle_matches_fpc(self) -> None:
+        result = run_test(
+            ROOT / "fixtures" / "scalarbitwiseand_oracle.pas",
+            ROOT / "variants" / "fpc-3.2.3-x86_64-linux.json",
+            "fpc",
+        )
+        self.assertEqual(result["source"]["status"], "passed")
+        self.assertEqual(result["extraction"]["status"], "passed")
+        self.assertEqual(result["target"]["status"], "passed")
+        self.assertEqual(result["oracle"]["status"], "passed")
+        self.assertEqual(
+            result["oracle"]["source_output"],
+            ["bitandsigned(12,10)=8", "bitandsigned(-1,255)=255", "bitandunsigned(240,15)=0"],
+        )
+        self.assertEqual(result["oracle"]["target_output"], result["oracle"]["source_output"])
 
     def test_scalar_modulo_oracle_proves_truncated_remainder(self) -> None:
         result = run_test(

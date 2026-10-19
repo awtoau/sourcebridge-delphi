@@ -109,6 +109,14 @@ class PasFactsTests(unittest.TestCase):
         self.assertEqual(by_name["ModSigned"]["operands"], ["Left", "Right"])
         self.assertEqual(by_name["ModUnsigned"]["return_type"], "cardinal")
 
+    def test_extracts_scalar_bitwise_and_facts(self) -> None:
+        facts = extract_facts(ROOT / "fixtures" / "scalarbitwiseand.pas")
+        by_name = {f["name"]: f for f in facts["facts"]}
+        self.assertEqual(by_name["BitAndSigned"]["kind"], "scalar_bitwise_and_function")
+        self.assertEqual(by_name["BitAndSigned"]["return_type"], "integer")
+        self.assertEqual(by_name["BitAndSigned"]["operands"], ["Left", "Right"])
+        self.assertEqual(by_name["BitAndUnsigned"]["return_type"], "cardinal")
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,0 +1,48 @@
+{
+  "source_language": "delphi",
+  "target_backend": "sourcebridge-rust",
+  "requested_target_backend": "sourcebridge-rust",
+  "existing_rule_digest": "none-for-scalar-bitwise-and",
+  "variant": {
+    "family": "fpc",
+    "mode": "delphi",
+    "version": "3.2.3",
+    "target_cpu": "x86_64",
+    "target_os": "linux"
+  },
+  "target_context": {
+    "backend": "sourcebridge-rust",
+    "candidate_backends": ["sourcebridge-rust"]
+  },
+  "source_facts": {
+    "source_path": "fixtures/scalarbitwiseand.pas",
+    "functions": [
+      {
+        "name": "BitAndSigned",
+        "operation": "Result := Left and Right",
+        "return_type": "integer",
+        "parameters": [
+          {"name": "Left", "type": "integer"},
+          {"name": "Right", "type": "integer"}
+        ]
+      },
+      {
+        "name": "BitAndUnsigned",
+        "operation": "Result := Left and Right",
+        "return_type": "cardinal",
+        "parameters": [
+          {"name": "Left", "type": "cardinal"},
+          {"name": "Right", "type": "cardinal"}
+        ]
+      }
+    ]
+  },
+  "observed_behavior": {
+    "non_overflow_examples": [
+      {"function": "BitAndSigned", "input": [12, 10], "result": 8},
+      {"function": "BitAndSigned", "input": [-1, 255], "result": 255},
+      {"function": "BitAndUnsigned", "input": [240, 15], "result": 0}
+    ],
+    "measured_overflow_policy": "FPC `and` on integer operands is a bitwise AND over the two's-complement bits of the shared type width: 12 and 10 = 8; -1 and 255 = 255. It does not overflow."
+  }
+}
