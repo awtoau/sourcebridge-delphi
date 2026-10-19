@@ -125,3 +125,18 @@ class DevelopmentEntryPointTests(unittest.TestCase):
             dev.emit = original_emit
         result = json.loads(output.getvalue())
         self.assertEqual(result["diagnostic_output"], "x" * 4_000)
+
+    def test_describe_delegates_conversion_reports_to_the_engine(self) -> None:
+        description_output = io.StringIO()
+        original_emit = dev.emit
+        try:
+            dev.emit = lambda data, stream=description_output: original_emit(data, stream=description_output)
+            self.assertEqual(dev.describe(argparse.Namespace()), 0)
+        finally:
+            dev.emit = original_emit
+        description = json.loads(description_output.getvalue())
+        self.assertNotIn("report-progress", description["commands"])
+        self.assertEqual(
+            description["conversion_evidence_and_reports"]["owner"],
+            "sourcebridge engine (not this pack)",
+        )

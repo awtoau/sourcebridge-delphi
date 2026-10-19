@@ -26,6 +26,61 @@
       "order": 5,
       "rule": "delphi.basics.string-length-primitive",
       "test_id": 441
+    },
+    {
+      "order": 6,
+      "rule": "delphi.basics.scalar-addition",
+      "test_id": 442
+    },
+    {
+      "order": 7,
+      "rule": "delphi.basics.boolean-comparison-branch",
+      "test_id": 443
+    },
+    {
+      "order": 8,
+      "rule": "delphi.basics.boolean-comparison-expression",
+      "test_id": 444
+    },
+    {
+      "order": 9,
+      "rule": "delphi.basics.string-length-primitive",
+      "test_id": 445
+    },
+    {
+      "order": 10,
+      "rule": "delphi.programs.integer-bitwise",
+      "test_id": 446
+    },
+    {
+      "order": 11,
+      "rule": "delphi.basics.scalar-division",
+      "test_id": 447
+    },
+    {
+      "order": 12,
+      "rule": "delphi.basics.scalar-division",
+      "test_id": 448
+    },
+    {
+      "order": 13,
+      "rule": "delphi.basics.scalar-multiplication",
+      "test_id": 449
+    },
+    {
+      "order": 14,
+      "rule": "delphi.basics.scalar-multiplication",
+      "test_id": 450
+    },
+    {
+      "order": 15,
+      "rule": "delphi.basics.scalar-subtraction",
+      "test_id": 451
+    },
+    {
+      "order": 16,
+      "rule": "delphi.basics.scalar-subtraction",
+      "test_id": 452
     }
   ]
 }

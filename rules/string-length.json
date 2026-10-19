@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "rule_key": "delphi.basics.string-length-primitive",
+  "title": "String length primitive",
+  "applies_to": { "source_fact_kind": "string_length_function" },
+  "output_shape": {
+    "target": "rust",
+    "type_map": { "string": "&str", "integer": "i32" },
+    "body": "{op0}.chars().count() as i32"
+  },
+  "validation_tier": "target-compile",
+  "rationale": "Delphi `Length(S)` on a string returns the number of characters, not bytes. Rust `&str` is UTF-8, so `.len()` would return the byte count and diverge for non-ASCII input; `.chars().count()` returns the Unicode scalar count, the closest match to Delphi's per-character semantics. The result is cast `as i32` because Delphi `Length` returns a signed Integer. The string parameter maps to a borrowed `&str` (no ownership transfer is implied by reading a length). Only {op0} is referenced; the duplicated second operand in the fact is ignored by this shape."
+}

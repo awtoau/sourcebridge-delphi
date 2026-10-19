@@ -1,0 +1,93 @@
+{
+  "source_language": "delphi",
+  "target_backend": "sourcebridge-rust",
+  "requested_target_backend": "sourcebridge-rust",
+  "existing_rule_digest": "none-for-scalar-subtraction",
+  "variant": {
+    "family": "fpc",
+    "mode": "delphi",
+    "version": "3.2.3",
+    "target_cpu": "x86_64",
+    "target_os": "linux"
+  },
+  "source_facts": {
+    "source_path": "fixtures/scalarsubtraction.pas",
+    "functions": [
+      {
+        "name": "SubSigned",
+        "operation": "Result := Left - Right",
+        "return_type": "integer",
+        "parameters": [
+          {
+            "name": "Left",
+            "type": "integer"
+          },
+          {
+            "name": "Right",
+            "type": "integer"
+          }
+        ]
+      },
+      {
+        "name": "SubUnsigned",
+        "operation": "Result := Left - Right",
+        "return_type": "cardinal",
+        "parameters": [
+          {
+            "name": "Left",
+            "type": "cardinal"
+          },
+          {
+            "name": "Right",
+            "type": "cardinal"
+          }
+        ]
+      }
+    ]
+  },
+  "observed_behavior": {
+    "non_overflow_examples": [
+      {
+        "function": "SubSigned",
+        "input": [
+          10,
+          3
+        ],
+        "result": 7
+      },
+      {
+        "function": "SubUnsigned",
+        "input": [
+          100,
+          40
+        ],
+        "result": 60
+      }
+    ],
+    "modular_overflow_examples": [
+      {
+        "function": "SubSigned",
+        "input": [
+          -2147483648,
+          1
+        ],
+        "result": 2147483647
+      },
+      {
+        "function": "SubUnsigned",
+        "input": [
+          0,
+          1
+        ],
+        "result": 4294967295
+      }
+    ],
+    "measured_overflow_policy": "FPC integer subtraction is modular (wrapping) at the type width: Low(Integer)-1 = High(Integer) and Cardinal 0-1 = High(Cardinal)."
+  },
+  "target_context": {
+    "backend": "sourcebridge-rust",
+    "candidate_backends": [
+      "sourcebridge-rust"
+    ]
+  }
+}

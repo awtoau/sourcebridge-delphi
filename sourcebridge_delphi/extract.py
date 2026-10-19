@@ -18,7 +18,7 @@ _SIGNATURE = re.compile(
     re.IGNORECASE,
 )
 _PARAMETER = re.compile(
-    r"^(?P<name>[A-Za-z_][A-Za-z0-9_]*)\s*:\s*(?P<type>Integer|Cardinal)$",
+    r"^(?P<name>[A-Za-z_][A-Za-z0-9_]*)\s*:\s*(?P<type>Integer|Cardinal|String)$",
     re.IGNORECASE,
 )
 _ASSIGNMENT = re.compile(
@@ -34,6 +34,16 @@ _COMPARISON = re.compile(
 )
 _BOOLEAN_ASSIGNMENT = re.compile(
     r"^Result\s*:=\s*(?P<value>True|False)\s*;?$", re.IGNORECASE
+)
+_BOOLEAN_COMPARISON_EXPRESSION = re.compile(
+    r"^Result\s*:=\s*(?P<left>[A-Za-z_][A-Za-z0-9_]*)\s*"
+    r"(?P<operator><>|<=|>=|=|<|>)\s*"
+    r"(?P<right>[A-Za-z_][A-Za-z0-9_]*)\s*;$",
+    re.IGNORECASE,
+)
+_LENGTH_ASSIGNMENT = re.compile(
+    r"^Result\s*:=\s*Length\(\s*(?P<value>[A-Za-z_][A-Za-z0-9_]*)\s*\)\s*;$",
+    re.IGNORECASE,
 )
 _SIZE_OF_OUTPUT = re.compile(
     r"^Writeln\('(?P<label>Integer|Cardinal)=',\s*"
@@ -217,6 +227,53 @@ def extract(path: Path, variant_path: Path | None = None) -> dict[str, Any]:
                         "operation_span": _source_span(operation_line),
                     }
                 )
+            elif (expression := _BOOLEAN_COMPARISON_EXPRESSION.fullmatch(operation)) is not None:
+                if return_type != "boolean":
+                    raise ExtractionError(
+                        f"line {line_number}: comparison expression must return Boolean")
+                operands = [expression["left"], expression["right"]]
+                if any(operand.casefold() not in parameter_names for operand in operands):
+                    raise ExtractionError(
+                        f"line {operation_line}: comparison operands must be declared parameters")
+                index += 1
+                facts.append(
+                    {
+                        "kind": "boolean_comparison_expression_function",
+                        "name": name,
+                        "parameters": parameters,
+                        "return_type": return_type,
+                        "operands": operands,
+                        "operator": expression["operator"],
+                        "signature_span": _source_span(line_number),
+                        "operation_span": _source_span(operation_line),
+                    }
+                )
+            elif (length_call := _LENGTH_ASSIGNMENT.fullmatch(operation)) is not None:
+                if return_type != "integer":
+                    raise ExtractionError(
+                        f"line {line_number}: string length must return Integer")
+                value = length_call["value"]
+                parameter_types = {
+                    parameter["name"].casefold(): parameter["type"] for parameter in parameters
+                }
+                if parameter_types.get(value.casefold()) != "string":
+                    raise ExtractionError(
+                        f"line {operation_line}: Length argument must be a declared String parameter")
+                index += 1
+                facts.append(
+                    {
+                        "kind": "string_length_function",
+                        "name": name,
+                        "parameters": parameters,
+                        "return_type": return_type,
+                        # Length is unary; the second operand duplicates the first
+                        # only to satisfy the emitter's fixed two-operand body
+                        # contract. The output shape references {op0} alone.
+                        "operands": [value, value],
+                        "signature_span": _source_span(line_number),
+                        "operation_span": _source_span(operation_line),
+                    }
+                )
             else:
                 raise ExtractionError(
                     f"line {operation_line}: only `Result := Left + Right` or a Boolean comparison branch is supported")
@@ -227,7 +284,7 @@ def extract(path: Path, variant_path: Path | None = None) -> dict[str, Any]:
             declarations[name.casefold()] = (parameters, return_type, line_number)
     if unit_name is None and program_name is None:
         raise ExtractionError(f"{path}: missing unit declaration")
-    if program_name is not None:
+    if program_name is not None and layout_sizes:
         if {item["type"] for item in layout_sizes} != {"integer", "cardinal"}:
             raise ExtractionError(f"{path}: missing supported SizeOf layout statements")
         if {item["type"] for item in layout_additions} != {"integer", "cardinal"}:
@@ -240,6 +297,8 @@ def extract(path: Path, variant_path: Path | None = None) -> dict[str, Any]:
                 "typed_additions": layout_additions,
             }
         )
+    elif program_name is not None and not facts:
+        raise ExtractionError(f"{path}: no supported program expressions found")
     if not facts:
         raise ExtractionError(f"{path}: no supported function implementations found")
     result = {

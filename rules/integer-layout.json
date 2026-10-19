@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "rule_key": "delphi.basics.integer-layout",
+  "title": "Scalar layout program: SizeOf measurements and typed additions",
+  "applies_to": { "source_fact_kind": "scalar_layout_program" },
+  "output_shape": {
+    "target": "rust",
+    "kind": "program",
+    "type_map": { "integer": "i32", "cardinal": "u32" },
+    "emitters": [
+      {
+        "from": "size_of",
+        "signature": "pub fn size_of_{type}() -> usize",
+        "body": "std::mem::size_of::<{rust_type}>()"
+      },
+      {
+        "from": "typed_additions",
+        "signature": "pub fn add_{type}() -> {rust_type}",
+        "body": "({left}{rust_type}).wrapping_add({right}{rust_type})"
+      }
+    ]
+  },
+  "validation_tier": "target-compile",
+  "rationale": "A Delphi scalar-layout program measures type widths with SizeOf and performs typed modular additions; SizeOf maps to std::mem::size_of over the mapped Rust integer type, and each typed addition maps to wrapping_add over that type, preserving the measured FPC layout and overflow semantics."
+}

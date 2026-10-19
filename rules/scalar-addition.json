@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "rule_key": "delphi.basics.scalar-addition",
+  "title": "Integer/Cardinal addition with modular (wrapping) overflow policy",
+  "applies_to": { "source_fact_kind": "scalar_addition_function" },
+  "output_shape": {
+    "target": "rust",
+    "type_map": { "integer": "i32", "cardinal": "u32" },
+    "body": "{op0}.wrapping_add({op1})"
+  },
+  "validation_tier": "executable-oracle",
+  "rationale": "Measured FPC source behavior at the overflow boundary is modular 32-bit addition; wrapping_add preserves it."
+}

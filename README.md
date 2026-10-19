@@ -1,8 +1,16 @@
 # Sourcebridge Delphi frontend pack
 
-This pack extracts bounded Delphi source facts and emits Rust only for the
-explicitly supported Stage-1 function shapes. It records compiler outcomes
-without claiming unsupported dialect, runtime, or equivalence behavior.
+> **Scope note:** this pack uses **Free Pascal (FPC) in Delphi-compatibility
+> mode (`-Mdelphi`)**, not the Embarcadero Delphi compiler. It is honestly an
+> Object Pascal / FPC pack; it does **not** prove Embarcadero Delphi behavior.
+> See [docs/delphi-vs-fpc-scope.md](docs/delphi-vs-fpc-scope.md) for what this
+> does and does not establish, and the lawful path to real Delphi grounding
+> (a licensed `dcc64` via Wine).
+
+This pack extracts bounded Object Pascal (FPC Delphi-mode) source facts and
+emits Rust only for the explicitly supported Stage-1 function shapes. It records
+compiler outcomes without claiming unsupported dialect, runtime, or equivalence
+behavior.
 
 ## Stage-1 scope
 
@@ -183,6 +191,35 @@ The integer-layout program reports extraction `passed` for its constrained
 source expressions only; target remains `blocked`. Oracle remains `skipped`
 for every basics case because no fixture currently has an executable
 source/target comparison harness.
+
+## Conversion evidence and reports are owned by the engine
+
+This pack does not generate its own reports. It provides only the isolated
+`json-command` adapter ([`tools/run_sourcebridge_engine_test.py`](tools/run_sourcebridge_engine_test.py))
+and its declared data (`engine-tests.json`, `rule-curriculum.json`). The
+Sourcebridge engine runs the catalogue against a declared conversion profile
+and records every outcome as rows in the designed generic evidence tables
+(`sourcebridge_validation_result`, `sourcebridge_diagnostic_occurrence`,
+`sourcebridge_generated_artifact`):
+
+```text
+sourcebridge record-catalogue-census \
+  --database evidence/sourcebridge.db \
+  --profile examples/delphi-to-rust.profile.json \
+  --catalogue ../sourcebridge-delphi-fpc-rtl-validation/engine-tests.json \
+  --curriculum ../sourcebridge-delphi-fpc-rtl-validation/rule-curriculum.json
+```
+
+Report from the database with the engine's own commands:
+
+```text
+sourcebridge report-conversion-census --database evidence/sourcebridge.db
+sourcebridge report-diagnostics --database evidence/sourcebridge.db
+```
+
+The profile manifest is the only place that joins the Delphi frontend to the
+Rust backend. There is no Delphi-to-Python profile, so no such evidence is
+claimed.
 
 ## Prototype engine-test inventory
 

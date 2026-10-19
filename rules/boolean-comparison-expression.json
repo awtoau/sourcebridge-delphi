@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "rule_key": "delphi.basics.boolean-comparison-expression",
+  "title": "Boolean comparison expression function",
+  "applies_to": { "source_fact_kind": "boolean_comparison_expression_function" },
+  "output_shape": {
+    "target": "rust",
+    "type_map": { "integer": "i32", "cardinal": "u32", "boolean": "bool" },
+    "operator_map": { "=": "==", "<>": "!=", "<": "<", ">": ">", "<=": "<=", ">=": ">=" },
+    "body": "{op0} {operator} {op1}"
+  },
+  "validation_tier": "target-compile",
+  "rationale": "A Delphi function whose body is a direct `Result := Left <op> Right` comparison yields a Boolean; the comparison maps directly to the equivalent Rust comparison operator used as the function's tail expression."
+}

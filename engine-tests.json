@@ -47,10 +47,10 @@
           "status": "passed"
         },
         "target": {
-          "status": "blocked"
+          "status": "passed"
         },
         "oracle": {
-          "status": "skipped"
+          "status": "passed"
         }
       }
     },
@@ -63,10 +63,10 @@
           "status": "passed"
         },
         "extraction": {
-          "status": "failed"
+          "status": "passed"
         },
         "target": {
-          "status": "blocked"
+          "status": "passed"
         },
         "oracle": {
           "status": "skipped"
@@ -101,13 +101,222 @@
           "status": "passed"
         },
         "extraction": {
-          "status": "failed"
+          "status": "passed"
         },
         "target": {
-          "status": "blocked"
+          "status": "passed"
         },
         "oracle": {
           "status": "skipped"
+        }
+      }
+    },
+    {
+      "id": 442,
+      "name": "basics-fpc-scalar-overflow-oracle",
+      "fixture": "fixtures/scalar_overflow.pas",
+      "expected": {
+        "source": {
+          "status": "passed"
+        },
+        "extraction": {
+          "status": "passed"
+        },
+        "target": {
+          "status": "passed"
+        },
+        "oracle": {
+          "status": "passed"
+        }
+      }
+    },
+    {
+      "id": 443,
+      "name": "basics-fpc-boolean-comparison-branch-oracle",
+      "fixture": "fixtures/booleancomparison_oracle.pas",
+      "expected": {
+        "source": {
+          "status": "passed"
+        },
+        "extraction": {
+          "status": "passed"
+        },
+        "target": {
+          "status": "passed"
+        },
+        "oracle": {
+          "status": "passed"
+        }
+      }
+    },
+    {
+      "id": 444,
+      "name": "basics-fpc-boolean-comparison-expression-oracle",
+      "fixture": "fixtures/booleanexpression_oracle.pas",
+      "expected": {
+        "source": {
+          "status": "passed"
+        },
+        "extraction": {
+          "status": "passed"
+        },
+        "target": {
+          "status": "passed"
+        },
+        "oracle": {
+          "status": "passed"
+        }
+      }
+    },
+    {
+      "id": 445,
+      "name": "basics-fpc-string-length-oracle",
+      "fixture": "fixtures/stringlength_oracle.pas",
+      "expected": {
+        "source": {
+          "status": "passed"
+        },
+        "extraction": {
+          "status": "passed"
+        },
+        "target": {
+          "status": "passed"
+        },
+        "oracle": {
+          "status": "passed"
+        }
+      }
+    },
+    {
+      "id": 446,
+      "name": "programs-fpc-integer-bitwise-oracle",
+      "fixture": "fixtures/program_bitwise.pp",
+      "expected": {
+        "source": {
+          "status": "passed"
+        },
+        "extraction": {
+          "status": "passed"
+        },
+        "target": {
+          "status": "passed"
+        },
+        "oracle": {
+          "status": "passed"
+        }
+      }
+    },
+    {
+      "id": 447,
+      "name": "basics-fpc-scalar-division",
+      "fixture": "fixtures/scalardivision.pas",
+      "expected": {
+        "source": {
+          "status": "passed"
+        },
+        "extraction": {
+          "status": "passed"
+        },
+        "target": {
+          "status": "passed"
+        },
+        "oracle": {
+          "status": "skipped"
+        }
+      }
+    },
+    {
+      "id": 448,
+      "name": "basics-fpc-scalar-division-oracle",
+      "fixture": "fixtures/scalardivision_oracle.pas",
+      "expected": {
+        "source": {
+          "status": "passed"
+        },
+        "extraction": {
+          "status": "passed"
+        },
+        "target": {
+          "status": "passed"
+        },
+        "oracle": {
+          "status": "passed"
+        }
+      }
+    },
+    {
+      "id": 449,
+      "name": "basics-fpc-scalar-multiplication",
+      "fixture": "fixtures/scalarmultiplication.pas",
+      "expected": {
+        "source": {
+          "status": "passed"
+        },
+        "extraction": {
+          "status": "passed"
+        },
+        "target": {
+          "status": "passed"
+        },
+        "oracle": {
+          "status": "skipped"
+        }
+      }
+    },
+    {
+      "id": 450,
+      "name": "basics-fpc-scalar-multiplication-oracle",
+      "fixture": "fixtures/scalarmultiplication_oracle.pas",
+      "expected": {
+        "source": {
+          "status": "passed"
+        },
+        "extraction": {
+          "status": "passed"
+        },
+        "target": {
+          "status": "passed"
+        },
+        "oracle": {
+          "status": "passed"
+        }
+      }
+    },
+    {
+      "id": 451,
+      "name": "basics-fpc-scalar-subtraction",
+      "fixture": "fixtures/scalarsubtraction.pas",
+      "expected": {
+        "source": {
+          "status": "passed"
+        },
+        "extraction": {
+          "status": "passed"
+        },
+        "target": {
+          "status": "passed"
+        },
+        "oracle": {
+          "status": "skipped"
+        }
+      }
+    },
+    {
+      "id": 452,
+      "name": "basics-fpc-scalar-subtraction-oracle",
+      "fixture": "fixtures/scalarsubtraction_oracle.pas",
+      "expected": {
+        "source": {
+          "status": "passed"
+        },
+        "extraction": {
+          "status": "passed"
+        },
+        "target": {
+          "status": "passed"
+        },
+        "oracle": {
+          "status": "passed"
         }
       }
     }

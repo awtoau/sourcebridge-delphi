@@ -14,6 +14,48 @@ class ExtractTests(unittest.TestCase):
         self.assertEqual(result["facts"][0]["operator"], ">")
         self.assertEqual(result["facts"][0]["operands"], ["Left", "Right"])
 
+    def test_extracts_boolean_comparison_expression_fixture(self) -> None:
+        result = extract(Path("fixtures/booleanexpression.pas"))
+        self.assertEqual(result["unit"], "BooleanExpression")
+        fact = result["facts"][0]
+        self.assertEqual(fact["kind"], "boolean_comparison_expression_function")
+        self.assertEqual(fact["name"], "IsGreater")
+        self.assertEqual(fact["return_type"], "boolean")
+        self.assertEqual(fact["operator"], ">")
+        self.assertEqual(fact["operands"], ["Left", "Right"])
+
+    def test_extracts_string_length_fixture(self) -> None:
+        result = extract(Path("fixtures/stringlength.pas"))
+        self.assertEqual(result["unit"], "StringLength")
+        fact = result["facts"][0]
+        self.assertEqual(fact["kind"], "string_length_function")
+        self.assertEqual(fact["name"], "TextLength")
+        self.assertEqual(fact["return_type"], "integer")
+        self.assertEqual(fact["parameters"], [{"name": "Value", "type": "string"}])
+        self.assertEqual(fact["operands"][0], "Value")
+
+    def test_rejects_non_boolean_comparison_expression(self) -> None:
+        path = Path(self._testMethodName + ".pas")
+        self.addCleanup(path.unlink, missing_ok=True)
+        path.write_text(
+            "unit Invalid;\nfunction A(Left: Integer; Right: Integer): Integer;\n"
+            "begin\nResult := Left > Right;\nend;\nend.\n",
+            encoding="utf-8",
+        )
+        with self.assertRaisesRegex(ExtractionError, "must return Boolean"):
+            extract(path)
+
+    def test_rejects_length_of_non_string_parameter(self) -> None:
+        path = Path(self._testMethodName + ".pas")
+        self.addCleanup(path.unlink, missing_ok=True)
+        path.write_text(
+            "unit Invalid;\nfunction A(Value: Integer): Integer;\n"
+            "begin\nResult := Length(Value);\nend;\nend.\n",
+            encoding="utf-8",
+        )
+        with self.assertRaisesRegex(ExtractionError, "must be a declared String parameter"):
+            extract(path)
+
     def test_extracts_scalar_addition_fixture(self) -> None:
         result = extract(Path("fixtures/scalars.pas"))
         self.assertEqual(result["unit"], "Scalars")

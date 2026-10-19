@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "rule_key": "delphi.basics.boolean-comparison-branch",
+  "title": "Boolean comparison branch function",
+  "applies_to": { "source_fact_kind": "boolean_comparison_branch_function" },
+  "output_shape": {
+    "target": "rust",
+    "type_map": { "integer": "i32", "cardinal": "u32", "boolean": "bool" },
+    "operator_map": { "=": "==", "<>": "!=", "<": "<", ">": ">", "<=": "<=", ">=": ">=" },
+    "body": "{op0} {operator} {op1}"
+  },
+  "validation_tier": "target-compile",
+  "rationale": "A Delphi integer comparison maps to the equivalent Rust comparison operator."
+}

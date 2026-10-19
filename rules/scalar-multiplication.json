@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "rule_key": "delphi.basics.scalar-multiplication",
+  "title": "Integer/Cardinal multiplication with modular (wrapping) overflow policy",
+  "applies_to": {
+    "source_fact_kind": "scalar_multiplication_function"
+  },
+  "output_shape": {
+    "target": "rust",
+    "type_map": {
+      "integer": "i32",
+      "cardinal": "u32"
+    },
+    "body": "{op0}.wrapping_mul({op1})"
+  },
+  "validation_tier": "executable-oracle",
+  "rationale": "FPC integer multiplication overflow is modular at the type width; the oracle checks the overflow boundary to force wrapping semantics."
+}

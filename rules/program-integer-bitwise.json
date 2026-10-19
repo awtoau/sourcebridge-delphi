@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "rule_key": "delphi.programs.integer-bitwise",
+  "title": "Integer arithmetic and bitwise program body with assertion checks",
+  "applies_to": { "source_fact_kind": "program_body" },
+  "output_shape": {
+    "target": "rust",
+    "kind": "statements",
+    "type_map": {
+      "byte": "u8", "shortint": "i8", "smallint": "i16", "word": "u16",
+      "longint": "i32", "longword": "u32", "cardinal": "u32", "integer": "i32",
+      "int64": "i64", "qword": "u64"
+    },
+    "operator_map": {
+      "or": "({l} as {t}) | ({r} as {t})",
+      "xor": "({l} as {t}) ^ ({r} as {t})",
+      "and": "({l} as {t}) & ({r} as {t})",
+      "add": "({l} as {t}).wrapping_add({r} as {t})",
+      "sub": "({l} as {t}).wrapping_sub({r} as {t})",
+      "mul": "({l} as {t}).wrapping_mul({r} as {t})"
+    },
+    "compare_map": { "<>": "!=", "=": "==", "<": "<", ">": ">", "<=": "<=", ">=": ">=" }
+  },
+  "validation_tier": "executable-oracle",
+  "rationale": "Mixed-type integer bitwise ops follow FPC promotion; computing each operand in the assignment target's width and comparing runtime stdout against the compiled FPC program proves the emitted Rust is faithful. Operator renderings are data (operator_map), so new operators are added as rule data, not code."
+}

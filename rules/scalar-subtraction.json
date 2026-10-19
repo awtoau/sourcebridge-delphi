@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "rule_key": "delphi.basics.scalar-subtraction",
+  "title": "Integer/Cardinal subtraction with modular (wrapping) overflow policy",
+  "applies_to": { "source_fact_kind": "scalar_subtraction_function" },
+  "output_shape": {
+    "target": "rust",
+    "type_map": { "integer": "i32", "cardinal": "u32" },
+    "body": "{op0}.wrapping_sub({op1})"
+  },
+  "validation_tier": "executable-oracle",
+  "rationale": "Model-drafted by local qwen3-coder:30b from measured FPC modular-overflow evidence (Low(Integer)-1 wraps to High(Integer); Cardinal 0-1 wraps to High(Cardinal)); gate-validated and proven at the underflow boundary by the executable oracle."
+}

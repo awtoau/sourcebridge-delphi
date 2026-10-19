@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "rule_key": "delphi.basics.scalar-division",
+  "title": "Integer/Cardinal truncating division",
+  "applies_to": {
+    "source_fact_kind": "scalar_division_function"
+  },
+  "output_shape": {
+    "target": "rust",
+    "type_map": {
+      "integer": "i32",
+      "cardinal": "u32"
+    },
+    "body": "{op0} / {op1}"
+  },
+  "validation_tier": "executable-oracle",
+  "rationale": "FPC integer div truncates toward zero, matching Rust integer division; validated on safe divisors. Division-by-zero and MIN/-1 overflow are out of scope for this tier."
+}

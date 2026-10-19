@@ -16,6 +16,7 @@ DEFAULT_MANIFEST = Path("evidence/fpc-compiler-tests-manifest.json")
 DEFAULT_DIGEST = Path("tmp/fpc-compiler-tests-digest.txt")
 DEFAULT_RUN = Path("evidence/fpc-compiler-tests-quick-run.json")
 DEFAULT_TRIAGE = Path("evidence/fpc-compiler-tests-triage.json")
+DEFAULT_CANDIDATES = Path("evidence/fpc-source-candidates.sqlite3")
 PYTHON = "python3"
 
 
@@ -261,6 +262,93 @@ def triage_corpus(args: argparse.Namespace) -> int:
     return 0
 
 
+def find_next_rule(args: argparse.Namespace) -> int:
+    """Report the top-ranked conversion-rule candidate from the triaged queue.
+
+    This is the documented rule selector: it reads the persisted, already
+    ollama-triaged FPC source-candidate queue and returns the single highest
+    priority accepted candidate using the harness' own deterministic ranking
+    (tests/ paths first, then rtl/, then source order). It calls no model and
+    spends no new tokens; identification is a pure read over existing evidence.
+    """
+
+    import sqlite3
+
+    database = args.database
+    if not database.is_file():
+        return failure(
+            "find-next-rule",
+            f"{database}: candidate queue not found; populate it with the "
+            "source-candidate harness first",
+        )
+    sys.path.insert(0, str(ROOT / "tools"))
+    try:
+        from run_fpc_source_candidates import _priority
+    except Exception:  # pragma: no cover - import guard
+        return failure("find-next-rule", "the candidate selector could not be loaded")
+    connection = sqlite3.connect(database)
+    try:
+        rows = [
+            json.loads(value)
+            for (value,) in connection.execute(
+                "SELECT candidate_json FROM fpc_source_candidate WHERE outcome = 'candidate'"
+            )
+        ]
+        tokens = connection.execute(
+            "SELECT COALESCE(SUM(prompt_tokens), 0), COALESCE(SUM(generated_tokens), 0), "
+            "COUNT(*) FROM fpc_source_candidate WHERE outcome = 'candidate'"
+        ).fetchone()
+    finally:
+        connection.close()
+    if not rows:
+        emit(
+            {
+                "command": "find-next-rule",
+                "status": "empty",
+                "detail": "no accepted candidates remain in the triaged queue",
+            }
+        )
+        return 0
+    rows.sort(
+        key=lambda item: (
+            *_priority(item["source_path"]),
+            item["line"],
+            item["signature"],
+            item["id"],
+        )
+    )
+    top = rows[0]
+    emit(
+        {
+            "command": "find-next-rule",
+            "status": "recommended",
+            "selector": "deterministic priority over ollama-triaged FPC source candidates",
+            "recommendation": {
+                "candidate_id": top["id"],
+                "source_path": top["source_path"],
+                "line": top["line"],
+                "symbol": top["symbol"],
+                "signature": top["signature"],
+                "selection_reason": top["selection_reason"],
+            },
+            "queue": {
+                "accepted_candidates": tokens[2],
+                "triage_tokens": {
+                    "prompt": tokens[0],
+                    "generated": tokens[1],
+                    "model_host": "local ollama",
+                    "cloud_cost": "none",
+                },
+            },
+            "identification_cost": {
+                "new_tokens": 0,
+                "note": "pure read over the persisted candidate queue; no model call",
+            },
+        }
+    )
+    return 0
+
+
 def describe(_: argparse.Namespace) -> int:
     emit(
         {
@@ -294,6 +382,16 @@ def describe(_: argparse.Namespace) -> int:
                     "dry_run": True,
                     "conversion_evidence": "none",
                 },
+                "find-next-rule": {
+                    "description": "Report the top-ranked conversion-rule candidate from the triaged queue.",
+                    "optional_arguments": ["--database"],
+                    "token_cost": "none (pure read of persisted evidence)",
+                },
+            },
+            "conversion_evidence_and_reports": {
+                "owner": "sourcebridge engine (not this pack)",
+                "record": "sourcebridge record-catalogue-census --profile <profile.json> --catalogue engine-tests.json --curriculum rule-curriculum.json",
+                "report": "sourcebridge report-conversion-census / report-diagnostics",
             },
             "path_policy": {
                 "corpus": "explicit argument; never written to evidence",
@@ -345,6 +443,10 @@ def parser() -> argparse.ArgumentParser:
     triage.add_argument("--output", type=repository_path, default=ROOT / DEFAULT_TRIAGE)
     triage.add_argument("--dry-run", action="store_true")
     triage.set_defaults(handler=triage_corpus)
+
+    find = subcommands.add_parser("find-next-rule")
+    find.add_argument("--database", type=repository_path, default=ROOT / DEFAULT_CANDIDATES)
+    find.set_defaults(handler=find_next_rule)
     return result
 
 
@@ -352,6 +454,8 @@ def main(argv: Sequence[str] | None = None) -> int:
     args = parser().parse_args(argv)
     if getattr(args, "workers", 1) < 1:
         parser().error("--workers must be positive")
+    if getattr(args, "timeout", 1) < 1:
+        parser().error("--timeout must be positive")
     return args.handler(args)
 
 
