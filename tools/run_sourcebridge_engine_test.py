@@ -411,6 +411,40 @@ def _scalar_subtraction_harness(
     return "subtraction-underflow", lines
 
 
+def _scalar_modulo_harness(
+    facts: dict[str, Any],
+) -> tuple[str, list[str]] | dict[str, Any]:
+    """Harness exercising truncated modulo (remainder takes the sign of the dividend).
+
+    A negative dividend distinguishes faithful Pascal `mod` (truncated, sign of
+    the dividend) from floored remainder, so the oracle proves the semantics.
+    """
+
+    names = {
+        str(fact.get("name", "")).casefold()
+        for fact in facts.get("facts", [])
+        if fact.get("kind") == "scalar_modulo_function"
+    }
+    cases = [
+        ("modsigned", -7, 2),
+        ("modsigned", 7, 3),
+        ("modunsigned", 100, 7),
+    ]
+    required = {name for name, _, _ in cases}
+    if not required.issubset(names):
+        return _status(
+            "blocked",
+            reason="modulo oracle requires ModSigned and ModUnsigned modulo facts",
+        )
+    lines = ["mod generated;", "", "fn main() {"]
+    for name, left, right in cases:
+        lines.append(
+            f'    println!("{name}({left},{right})={{}}", generated::{name}({left}, {right}));'
+        )
+    lines.append("}")
+    return "scalar-modulo", lines
+
+
 def _oracle_harness(facts: dict[str, Any]) -> tuple[str, list[str]] | dict[str, Any] | None:
     """Select the executable oracle harness for the extracted fact kinds, if any."""
 
@@ -423,6 +457,8 @@ def _oracle_harness(facts: dict[str, Any]) -> tuple[str, list[str]] | dict[str, 
         return _scalar_multiplication_harness(facts)
     if "scalar_subtraction_function" in kinds:
         return _scalar_subtraction_harness(facts)
+    if "scalar_modulo_function" in kinds:
+        return _scalar_modulo_harness(facts)
     if "boolean_comparison_branch_function" in kinds:
         return _boolean_comparison_branch_harness(facts)
     if "boolean_comparison_expression_function" in kinds:

@@ -28,7 +28,8 @@ class EngineTestAdapterTests(unittest.TestCase):
         ids = {case["id"] for case in catalogue["tests"]}
         self.assertEqual(
             ids,
-            {437, 438, 439, 440, 441, 442, 443, 444, 445, 446, 447, 448, 449, 450, 451, 452},
+            {437, 438, 439, 440, 441, 442, 443, 444, 445, 446, 447, 448, 449, 450,
+             451, 452, 453, 454},
         )
         self.assertTrue(ids.isdisjoint({434, 435, 436}))
 
@@ -111,8 +112,24 @@ class EngineTestAdapterTests(unittest.TestCase):
             [(entry["order"], entry["test_id"]) for entry in curriculum["entries"]],
             [(1, 437), (2, 439), (3, 440), (4, 438), (5, 441), (6, 442), (7, 443),
              (8, 444), (9, 445), (10, 446), (11, 447), (12, 448), (13, 449), (14, 450),
-             (15, 451), (16, 452)],
+             (15, 451), (16, 452), (17, 453), (18, 454)],
         )
+
+    def test_scalar_modulo_oracle_proves_truncated_remainder(self) -> None:
+        result = run_test(
+            ROOT / "fixtures" / "scalarmodulo_oracle.pas",
+            ROOT / "variants" / "fpc-3.2.3-x86_64-linux.json",
+            "fpc",
+        )
+        self.assertEqual(result["source"]["status"], "passed")
+        self.assertEqual(result["extraction"]["status"], "passed")
+        self.assertEqual(result["target"]["status"], "passed")
+        self.assertEqual(result["oracle"]["status"], "passed")
+        self.assertEqual(
+            result["oracle"]["source_output"],
+            ["modsigned(-7,2)=-1", "modsigned(7,3)=1", "modunsigned(100,7)=2"],
+        )
+        self.assertEqual(result["oracle"]["target_output"], result["oracle"]["source_output"])
 
     def test_scalar_subtraction_oracle_proves_modular_underflow(self) -> None:
         result = run_test(

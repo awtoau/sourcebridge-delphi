@@ -1,0 +1,48 @@
+{
+  "source_language": "delphi",
+  "target_backend": "sourcebridge-rust",
+  "requested_target_backend": "sourcebridge-rust",
+  "existing_rule_digest": "none-for-scalar-modulo",
+  "variant": {
+    "family": "fpc",
+    "mode": "delphi",
+    "version": "3.2.3",
+    "target_cpu": "x86_64",
+    "target_os": "linux"
+  },
+  "target_context": {
+    "backend": "sourcebridge-rust",
+    "candidate_backends": ["sourcebridge-rust"]
+  },
+  "source_facts": {
+    "source_path": "fixtures/scalarmodulo.pas",
+    "functions": [
+      {
+        "name": "ModSigned",
+        "operation": "Result := Left mod Right",
+        "return_type": "integer",
+        "parameters": [
+          {"name": "Left", "type": "integer"},
+          {"name": "Right", "type": "integer"}
+        ]
+      },
+      {
+        "name": "ModUnsigned",
+        "operation": "Result := Left mod Right",
+        "return_type": "cardinal",
+        "parameters": [
+          {"name": "Left", "type": "cardinal"},
+          {"name": "Right", "type": "cardinal"}
+        ]
+      }
+    ]
+  },
+  "observed_behavior": {
+    "non_overflow_examples": [
+      {"function": "ModSigned", "input": [7, 3], "result": 1},
+      {"function": "ModSigned", "input": [-7, 2], "result": -1},
+      {"function": "ModUnsigned", "input": [100, 7], "result": 2}
+    ],
+    "measured_overflow_policy": "FPC integer `mod` is the truncated remainder whose sign follows the dividend: -7 mod 2 = -1. Division by zero and Low(Integer) mod -1 are out of scope."
+  }
+}

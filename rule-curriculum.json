@@ -81,6 +81,16 @@
       "order": 16,
       "rule": "delphi.basics.scalar-subtraction",
       "test_id": 452
+    },
+    {
+      "order": 17,
+      "rule": "delphi.basics.scalar-modulo",
+      "test_id": 453
+    },
+    {
+      "order": 18,
+      "rule": "delphi.basics.scalar-modulo",
+      "test_id": 454
     }
   ]
 }

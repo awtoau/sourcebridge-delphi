@@ -209,6 +209,11 @@ begin
           Facts.Add('{"kind":"scalar_subtraction_function","name":' + JsonStr(Fn.Name) +
             ',"parameters":[' + PJson + '],"return_type":' + JsonStr(RetType) +
             ',"operands":[' + JsonStr(L) + ',' + JsonStr(R) + ']}')
+        // scalar modulo (Pascal `mod`)
+        else if BinaryIdents(Asn.right, L, R, Op) and (Op = eopMod) then
+          Facts.Add('{"kind":"scalar_modulo_function","name":' + JsonStr(Fn.Name) +
+            ',"parameters":[' + PJson + '],"return_type":' + JsonStr(RetType) +
+            ',"operands":[' + JsonStr(L) + ',' + JsonStr(R) + ']}')
         // string length (Integer return, Length(x))
         else
         begin

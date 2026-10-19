@@ -319,6 +319,44 @@
           "status": "passed"
         }
       }
+    },
+    {
+      "id": 453,
+      "name": "basics-fpc-scalar-modulo",
+      "fixture": "fixtures/scalarmodulo.pas",
+      "expected": {
+        "source": {
+          "status": "passed"
+        },
+        "extraction": {
+          "status": "passed"
+        },
+        "target": {
+          "status": "passed"
+        },
+        "oracle": {
+          "status": "skipped"
+        }
+      }
+    },
+    {
+      "id": 454,
+      "name": "basics-fpc-scalar-modulo-oracle",
+      "fixture": "fixtures/scalarmodulo_oracle.pas",
+      "expected": {
+        "source": {
+          "status": "passed"
+        },
+        "extraction": {
+          "status": "passed"
+        },
+        "target": {
+          "status": "passed"
+        },
+        "oracle": {
+          "status": "passed"
+        }
+      }
     }
   ]
 }

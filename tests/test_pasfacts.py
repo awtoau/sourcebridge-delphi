@@ -101,6 +101,14 @@ class PasFactsTests(unittest.TestCase):
         self.assertEqual(by_name["SubSigned"]["operands"], ["Left", "Right"])
         self.assertEqual(by_name["SubUnsigned"]["return_type"], "cardinal")
 
+    def test_extracts_scalar_modulo_facts(self) -> None:
+        facts = extract_facts(ROOT / "fixtures" / "scalarmodulo.pas")
+        by_name = {f["name"]: f for f in facts["facts"]}
+        self.assertEqual(by_name["ModSigned"]["kind"], "scalar_modulo_function")
+        self.assertEqual(by_name["ModSigned"]["return_type"], "integer")
+        self.assertEqual(by_name["ModSigned"]["operands"], ["Left", "Right"])
+        self.assertEqual(by_name["ModUnsigned"]["return_type"], "cardinal")
+
 
 if __name__ == "__main__":
     unittest.main()
